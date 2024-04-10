@@ -1,0 +1,129 @@
+body {
+	width: 100%;
+	height: auto;
+	font-family: "segoe ui semilight", "segoe ui", tahoma, arial;
+	font-size: 14px;
+	margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-size: 12px;
+	font-weight: normal;
+	margin: 0;
+}
+
+a {
+	padding: 1px 8px;
+	color: #000;
+	text-decoration: none;
+	display: inline-block;
+}
+
+a:hover, a:focus {
+	cursor: pointer;
+	outline: 1px dotted #000;
+}
+
+.header {
+	width: 100%;
+	height: auto;
+	overflow: hidden;
+	padding: 20px 20px 0px 20px;
+	background-color: rgb(108, 134, 114);
+	color: rgb(207, 216, 209);
+	position: fixed;
+	top: 0;
+	z-index: 999;
+}
+
+.header h1 {
+	font-size: 24px;
+	font-weight: bold;
+	color: #fff;
+	display: inline-block;
+}
+
+.btn {
+	padding: 6px 10px 4px 10px;
+	background-color: rgb(104, 168, 173);
+	border: none;
+	border-bottom: 3px solid rgb(104, 168, 173);
+	color: #fff;
+	transition: all 0.2s ease-in-out;
+	border-radius: 2px;
+}
+
+.btn:hover {
+	cursor: pointer;
+	border-bottom-color: rgb(75, 135, 139);
+}
+
+.btn:active {
+	background-color: rgb(85, 152, 157);
+	border-bottom-color: rgb(104, 168, 173);
+}
+
+.logout {
+	display: inline-block;
+	float: right;
+	margin-right: 20px;
+	margin-top: 10px;
+	color: #fff;
+}
+
+.logout a {
+	color: #fff;
+}
+
+.logout a:hover, .logout a:focus {
+	outline: 1px dotted #fff;
+}
+
+.navigation {
+	font-size: 16px;
+	list-style: none;
+	padding-left: 0;
+	margin-bottom: 0;
+}
+
+.navigation a {
+	color: rgb(207, 216, 209);
+	padding: 10px 15px;
+	border: none;
+	border-bottom: 3px solid transparent;
+	transition: all 0.2s ease-in-out;
+}
+
+.navigation a:hover {
+	color: #fff;
+	background-color: rgb(104, 168, 173);
+	border-bottom-color: rgb(75, 135, 139);
+}
+
+.navigation-item-selected, .navigation a:active {
+	color: #000 !important;
+	background-color: #fff;
+	border-radius: 0 !important;
+}
+
+.content {
+	width: auto;
+	height: auto;
+	min-height: 450px;
+	margin-top: 120px;
+	padding: 20px;
+}
+
+.content-title {
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.footer {
+	width: auto;
+	height: 80px;
+	padding: 20px;
+	color: #fff;
+	background-color: rgb(108, 134, 114);
+	clear: both;
+}
