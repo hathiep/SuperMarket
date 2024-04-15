@@ -1,27 +1,57 @@
+// function getAllUser() {
+//     fetch('http://localhost:8080/api/get_all_user')
+//         .then(response => response.json())
+//         .then(data => {
+//             const danhsachChitiet = document.querySelector('.danhsach-chitiet');
+//             danhsachChitiet.innerHTML = ''; // Xóa nội dung hiện tại của danh sách
+//
+//             // Duyệt qua mỗi customer và thêm vào danh sách
+//             data.forEach(user => {
+//                 const li = document.createElement('ul');
+//                 li.classList.add('danhsach-item');
+//                 li.innerHTML = `
+//                     <li style="width:5%; text-align: center;">${user.id}</li>
+//                     <li style="width:20%;">${user.name}</li>
+//                     <li style="width:10%; text-align: center; height: 30px;">${user.dob}</li>
+//                     <li style="width:15%; text-align: right;">${user.gender}</li>
+//                     <li style="width:10%; text-align: right;">${user.address}</li>
+//                     <li style="width:15%; margin-right: 1%; float:right; text-align:right;">
+//                         <a class="lnkXem" name="btnXem${user.id}" data-id="${user.id}" title="Chi tiết" href="detail_customer.html?id=${user.id}">Chi tiết</a>
+//                         <a class="lnkSua" name="btnSua${user.id}" data-id="${user.id}" title="Sửa" href="edit_customer.html?id=${user.id}">Sửa</a>
+//                         <a class="lnkXoa" name="btnXoa${user.id}" data-id="${user.id}" title="Xoá" onclick="deleteCustomer(${user.id})">Xoá</a>
+//                     </li>
+//                 `;
+//                 danhsachChitiet.appendChild(li);
+//             });
+//         })
+//         .catch(error => console.error('Error fetching data:', error));
+// }
 function getAllUser() {
     fetch('http://localhost:8080/api/get_all_user')
         .then(response => response.json())
         .then(data => {
             const danhsachChitiet = document.querySelector('.danhsach-chitiet');
-            danhsachChitiet.innerHTML = ''; // Xóa nội dung hiện tại của danh sách
+            danhsachChitiet.innerHTML = ''; // Xóa nội dung hiện tại của bảng
 
-            // Duyệt qua mỗi customer và thêm vào danh sách
+            // Duyệt qua mỗi customer và thêm vào bảng
+            var stt = 1;
             data.forEach(user => {
-                const li = document.createElement('ul');
-                li.classList.add('danhsach-item');
-                li.innerHTML = `
-                    <li style="width:5%; text-align: center;">${user.id}</li>
-                    <li style="width:20%;">${user.name}</li>
-                    <li style="width:10%; text-align: center; height: 30px;">${user.dob}</li>
-                    <li style="width:15%; text-align: right;">${user.gender}</li>
-                    <li style="width:10%; text-align: right;">${user.address}</li>
-                    <li style="width:15%; margin-right: 1%; float:right; text-align:right;">
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="col col1 center">${stt}</td>
+                    <td class="col col1 center">${user.id}</td>
+                    <td class="col col3 left">${user.name}</td>
+                    <td class="col col2 center">${user.dob}</td>
+                    <td class="col col2 center">${user.gender}</td>
+                    <td class="col col3 left">${user.address}</td>
+                    <td class="col col2 center">
                         <a class="lnkXem" name="btnXem${user.id}" data-id="${user.id}" title="Chi tiết" href="detail_customer.html?id=${user.id}">Chi tiết</a>
                         <a class="lnkSua" name="btnSua${user.id}" data-id="${user.id}" title="Sửa" href="edit_customer.html?id=${user.id}">Sửa</a>
                         <a class="lnkXoa" name="btnXoa${user.id}" data-id="${user.id}" title="Xoá" onclick="deleteCustomer(${user.id})">Xoá</a>
-                    </li>
+                    </td>
                 `;
-                danhsachChitiet.appendChild(li);
+                danhsachChitiet.appendChild(row);
+                stt+= 1;
             });
         })
         .catch(error => console.error('Error fetching data:', error));
@@ -96,7 +126,7 @@ function getDetailCustomer(id){
     fetch("http://localhost:8080/api/user?user_id=" + id)
         .then(response => response.json())
         .then(user => {
-            document.getElementById("customer_id").textContent = id;
+            document.getElementById("user_id").textContent = id;
             document.getElementById("input_name").value = user.name;
             document.getElementById("input_dob").value = user.dob;
             document.getElementById("input_gender").value = user.gender;

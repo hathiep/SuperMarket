@@ -23,7 +23,7 @@
         <a href="manage.html">
             <li>Trang chủ</li>
         </a>
-        <a href="statistical.html">
+        <a href="statistic.html">
             <li>Thống kê</li>
         </a>
         <!--        <a href="manage_product.html">-->
@@ -42,35 +42,38 @@
 
 <!--CONTENT-->
 <div class="content">
-    <p class="content-title">Thông tin khách hàng</p>
-    <form id="frmThemSanPhamMoi" method="post" action="#">
+    <div style="display: flex">
+        <p class="content-title">Thông tin khách hàng có ID: &nbsp;</p>
+        <p class="content-title" id="user_id"></p>
+    </div>
+    <form class="formInfor" method="post">
         <div style="display: flex">
-            <p>Họ và tên: </p>
-            <input type="text" class="txt" id="input_name" style="width:300px; background: white; border: none" disabled/> <br/>
+            <p>Họ và tên: &nbsp;</p>
+            <input type="text" class="input_disable" id="input_name" disabled/> <br/>
         </div>
 
         <div style="display: flex">
             <p>Ngày sinh: &nbsp;</p>
-            <input type="text" class="txt" id="input_dob" style="width:300px; background: white; border: none" disabled/> <br/>
+            <input type="text" class="input_disable" id="input_dob" disabled/> <br/>
         </div>
 
         <div style="display: flex">
             <p>Giới tính: &nbsp;</p>
-            <input type="text" class="txt" id="input_gender" style="width:300px; background: white; border: none" disabled/> <br/>
+            <input type="text" class="input_disable" id="input_gender" disabled/> <br/>
         </div>
         <div style="display: flex">
             <p>Địa chỉ: &nbsp;</p>
-            <input type="text" class="txt" id="input_address" style="width:300px; background: white; border: none" disabled/> <br/>
+            <input type="text" class="input_disable" id="input_address" disabled/> <br/>
         </div>
 
         <div style="display: flex">
             <p>Email: &nbsp;</p>
-            <input type="text" class="txt" id="input_email" style="width:300px; background: white; border: none" disabled/> <br/>
+            <input type="text" class="input_disable" id="input_email" disabled/> <br/>
         </div>
 
         <div style="display: flex">
             <p>Số điện thoại: &nbsp;</p>
-            <input type="text" class="txt" id="input_phone" style="width:300px; background: white; border: none" disabled/> <br/>
+            <input type="text" class="input_disable" id="input_phone"  disabled/> <br/>
         </div>
 
 

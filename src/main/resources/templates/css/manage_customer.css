@@ -1,6 +1,6 @@
 .timkiem
 {
-    float:right;
+    float:left;
     width:300px;
     background-color:rgb(108, 134, 114);
     padding:2px;
@@ -13,11 +13,11 @@
 }
 .danhsach
 {
+    height: 400px;
     overflow:hidden;
     clear:both;
     margin-top:40px;
 
-    outline:1px solid rgb(108, 134, 114);
 }
 .danhsach-header
 {
@@ -45,7 +45,6 @@
     margin:0px;
 
     list-style:none;
-    border-bottom:1px solid rgb(108, 134, 114);
 
     -webkit-transition: all 100ms ease-in-out;
     -moz-transition: all 100ms ease-in-out;
@@ -56,8 +55,10 @@
 
 .danhsach-chitiet
 {
-    height: 400px;
     overflow:hidden;
+}
+#table_customer{
+    height: 400px;
 }
 
 .danhsach-subitem

@@ -2,9 +2,7 @@ var userData = JSON.parse(localStorage.getItem('currentUser'));
 
 // Display user info
 if (userData) {
-    document.getElementById("user-info").innerHTML = `
-                <p>${userData.name}</p>
-            `;
+    document.getElementById("user-info").innerHTML = `<p>${userData.name}</p>`;
 } else {
     document.getElementById("user-info").innerHTML = "<p>Không có thông tin người dùng.</p>";
 }
