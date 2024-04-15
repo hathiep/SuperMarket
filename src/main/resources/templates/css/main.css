@@ -6,12 +6,6 @@ body {
 	margin: 0;
 }
 
-h1, h2, h3, h4, h5, h6 {
-	font-size: 12px;
-	font-weight: normal;
-	margin: 0;
-}
-
 a {
 	padding: 1px 8px;
 	color: #000;
@@ -110,13 +104,15 @@ a:hover, a:focus {
 	width: auto;
 	height: auto;
 	min-height: 450px;
-	margin-top: 120px;
+	margin-top: 100px;
 	padding: 20px;
 }
 
 .content-title {
-	font-size: 18px;
+	font-size: 20px;
 	font-weight: bold;
+	margin-top: 20px;
+	margin-left: 1%;
 }
 
 .footer {
@@ -126,4 +122,8 @@ a:hover, a:focus {
 	color: #fff;
 	background-color: rgb(108, 134, 114);
 	clear: both;
+}
+.app_name{
+	margin-top: 5px;
+	margin-bottom: 0px;
 }

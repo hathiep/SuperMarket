@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Quản lý khách hàng</title>
+
+    <link type="text/css" href="css/main.css" rel="stylesheet" />
+    <link type="text/css" href="css/statistic.css" rel="stylesheet" />
+    <link type="text/css" href="css/manage_customer.css" rel="stylesheet" />
+    <script type="text/javascript" src="js/jquery_min.js"></script>
+
+</head>
+
+<body>
+<!--HEADER-->
+<div class="header">
+    <h1 class="app_name" >QUẢN LÝ SIÊU THỊ</h1>
+    <!--    <div class="logout" style="display: flex">-->
+    <!--        <div style="margin-top: 15px">Xin chào :</div> &nbsp; &nbsp; <b><div id="user-info"></div></b> &nbsp; &nbsp;<div style="margin-top: 14px">| <a onclick="Logout()" title="Log out">Log out</a></div>-->
+    <!--    </div>-->
+    <!--NAVIGATION BAR-->
+    <ul class="navigation">
+        <a href="manage.html">
+            <li>Trang chủ</li>
+        </a>
+        <a class="navigation-item-selected">
+            <li>Thống kê</li>
+        </a>
+        <!--        <a href="manage_product.html">-->
+        <!--            <li>Quản lý sản phẩm</li>-->
+        <!--        </a>-->
+        <!--        <a href="manage_order.html">-->
+        <!--            <li>Quản lý đơn hàng</li>-->
+        <!--        </a>-->
+        <a href="manage_customer.html">
+            <li>Quản lý khách hàng</li>
+        </a>
+    </ul>
+    <!--NAVIGATION BAR-->
+</div>
+<!--END HEADER-->
+
+<!--CONTENT-->
+<div class="content">
+
+    <div class="content-title" style="display: flex; margin-top: 0">
+        <p>Thông tin khách hàng có ID&nbsp;</p>
+        <p id="customer_id"></p>
+        <p>&nbsp;theo doanh thu</p>
+    </div>
+    <form id="frmThemSanPhamMoi" method="post" action="#" style="display: flex; margin-left: 2%">
+        <div>
+            <div style="display: flex">
+                <p>Họ và tên: &nbsp;</p>
+                <input type="text" class="input_disable" id="input_name" disabled/>
+            </div>
+
+            <div style="display: flex">
+                <p>Ngày sinh: &nbsp;</p>
+                <input type="text" class="input_disable" id="input_dob" disabled/>
+            </div>
+
+            <div style="display: flex">
+                <p>Giới tính: &nbsp;</p>
+                <input type="text" class="input_disable" id="input_gender" disabled/>
+            </div>
+        </div>
+        <div>
+            <div style="display: flex">
+                <p>Địa chỉ: &nbsp;</p>
+                <input type="text" class="input_disable" id="input_address" disabled/>
+            </div>
+
+            <div style="display: flex">
+                <p>Email: &nbsp;</p>
+                <input type="text" class="input_disable" id="input_email" disabled/>
+            </div>
+
+            <div style="display: flex">
+                <p>Số điện thoại: &nbsp;</p>
+                <input type="text" class="input_disable" id="input_phone"  disabled/>
+            </div>
+        </div>
+    </form>
+
+    <p id="table-heading"></p>
+
+    <div style="height: 300px; overflow:auto; position: relative;">
+        <table id="statistic_table">
+            <thead style="position: sticky; top: 0;">
+            <tr>
+                <th class="col col1 center">STT</th>
+                <th class="col col1 center">ID</th>
+                <th class="col col2 center">Ngày mua</th>
+                <th class="col col2 center">Số sản phẩm</th>
+                <th class="col col3 center">Tổng thanh toán</th>
+                <th class="col col3 center">Vận chuyển</th>
+                <th class="col col3 center">Thanh toán</th>
+                <th class="col col3 center">Trạng thái</th>
+                <th class="col col2 center">Thao tác</th>
+            </tr>
+            </thead>
+            <tbody id="statistic_table_body"></tbody>
+            <tfoot id="statistic_table_foot" style="position: sticky; bottom: 0;">
+            <tr>
+                <td colspan="3" class="col col5 left">Tổng cộng:</td>
+                <td id="total_order_footer" class="col col2 right"></td>
+                <td id="total_revenue_footer" class="col col3 right"></td>
+                <td colspan="4" class="col left"></td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+<!--END CONTENT-->
+
+<!--FOOTER-->
+<div class="footer">
+    <p><b>Web quản lý siêu thị</b></p>
+    <span style="line-height:18px;">
+        <b>Người thực hiện: Hà Văn Thiệp</b><br/>
+        <b>MSV: B20DCCN668</b>
+    </span>
+</div>
+<!--END FOOTER-->
+
+</body>
+<script src="js/statistic.js"></script>
+<script src="js/manage_customer.js"></script>
+<script type="text/javascript">
+    var url = new URL(window.location.href);
+    var id = url.searchParams.get("customer_id");
+
+    window.onload = function() {
+        getDetailCustomer(id);
+        getAllOrderByRevenue(id);
+    }
+</script>
+<script src="js/logout.js"></script>
+
+</html>

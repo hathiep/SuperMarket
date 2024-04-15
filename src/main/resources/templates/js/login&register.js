@@ -1,24 +1,4 @@
-var userData = JSON.parse(localStorage.getItem('currentUser'));
-
-// Display user info
-if (userData) {
-    document.getElementById("user-info").innerHTML = `
-                <p>${userData.name}</p>
-            `;
-} else {
-    document.getElementById("user-info").innerHTML = "<p>Không có thông tin người dùng.</p>";
-}
-function Logout(){
-    const confirmation = confirm("Bạn có muốn đăng xuất không?");
-
-    if (!confirmation) {
-        console.log("Hủy đăng xuất");
-        return; // Không thực hiện xóa nếu người dùng hủy bỏ
-    }
-    window.location.href="login.html"
-}
-
-function Login(){
+function LoginRegister(){
     document.getElementById("loginForm").addEventListener("submit", function(event) {
         event.preventDefault();
         var email = document.getElementById("email").value;
@@ -43,14 +23,18 @@ function Login(){
             })
             .then(data => {
                 // Handle successful login
-                document.getElementById("result").innerHTML = "Đăng nhập thành công! Chào mừng " + data.email;
-                localStorage.setItem('currentUser', JSON.stringify(data));
-                // Redirect to welcome page
-                window.location.href = 'manage.html';
+                if(data.role == 0){
+                    document.getElementById("result").innerHTML = "Bạn không có quyền truy cập. Vui lòng thử lại!";
+                }
+                else {
+                    localStorage.setItem('currentUser', JSON.stringify(data));
+                    // Redirect to welcome page
+                    window.location.href = 'manage.html';
+                }
             })
             .catch(error => {
                 // Handle error
-                document.getElementById("result").innerHTML = "Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin đăng nhập.";
+                document.getElementById("result").innerHTML = "Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin !";
                 console.error('Error:', error);
             });
     });
@@ -79,13 +63,13 @@ function Register(){
             })
             .then(data => {
                 // Handle successful registration
-                document.getElementById("result").innerHTML = "Đăng ký thành công! Vui lòng đăng nhập.";
+                document.getElementById("result").innerHTML = "Đăng ký thành công. Vui lòng đăng nhập!";
                 // Redirect to login page after successful registration
                 window.location.href = "login.html";
             })
             .catch(error => {
                 // Handle error
-                document.getElementById("result").innerHTML = "Đăng ký thất bại. Vui lòng kiểm tra lại thông tin đăng ký.";
+                document.getElementById("result").innerHTML = "Đăng ký thất bại. Vui lòng kiểm tra lại thông tin!";
                 console.error('Error:', error);
             });
     });

@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Quản lý khách hàng</title>
+
+    <link type="text/css" href="css/main.css" rel="stylesheet" />
+    <link type="text/css" href="css/manage_customer.css" rel="stylesheet" />
+    <script type="text/javascript" src="js/jquery_min.js"></script>
+
+</head>
+
+<body>
+<!--HEADER-->
+<div class="header">
+    <h1 class="app_name" >QUẢN LÝ SIÊU THỊ</h1>
+    <!--    <div class="logout" style="display: flex">-->
+    <!--        <div style="margin-top: 15px">Xin chào :</div> &nbsp; &nbsp; <b><div id="user-info"></div></b> &nbsp; &nbsp;<div style="margin-top: 14px">| <a onclick="Logout()" title="Log out">Log out</a></div>-->
+    <!--    </div>-->
+    <!--NAVIGATION BAR-->
+    <ul class="navigation">
+        <a href="manage.html">
+            <li>Trang chủ</li>
+        </a>
+        <a href="statistical.html">
+            <li>Thống kê</li>
+        </a>
+        <!--        <a href="manage_product.html">-->
+        <!--            <li>Quản lý sản phẩm</li>-->
+        <!--        </a>-->
+        <!--        <a href="manage_order.html">-->
+        <!--            <li>Quản lý đơn hàng</li>-->
+        <!--        </a>-->
+        <a class="navigation-item-selected">
+            <li>Quản lý khách hàng</li>
+        </a>
+    </ul>
+    <!--NAVIGATION BAR-->
+</div>
+<!--END HEADER-->
+
+<!--CONTENT-->
+<div class="content">
+        <p class="content-title">Thêm khách hàng</p>
+        <form id="frmThemSanPhamMoi" method="post" action="#">
+            <p>Họ và tên:</p>
+            <input type="text" class="txt" id="input_name" style="width:300px;" required/> <br/>
+
+            <p>Ngày sinh:</p>
+            <input type="date" class="txt" id="input_dob" style="width:300px;" required/> <br/>
+
+            <p>Giới tính:</p>
+            <select class="txt" id="input_gender" style="width:300px;" step="0.01" required>
+                <option>Nam</option>
+                <option>Nữ</option>
+                <option>Khác</option>
+            </select>
+            <p>Địa chỉ:</p>
+            <input type="text" class="txt" id="input_address" style="width:300px;" required/><br/>
+
+            <p>Email:</p>
+            <input type="text" class="txt" id="input_email" style="width:300px;" required/><br/>
+
+            <p>Số điện thoại:</p>
+            <input type="text" class="txt" id="input_phone" style="width:300px;" required/><br/> <br/>
+
+            <button type="button" class="btn" id="btnCreateProduct" onclick="addUser()" style="width:50px; height: 30px;">Thêm</button>
+        </form>
+</div>
+<!--END CONTENT-->
+
+<!--FOOTER-->
+<div class="footer">
+    <p><b>Web quản lý siêu thị</b></p>
+    <span style="line-height:18px;">
+        <b>Người thực hiện: Hà Văn Thiệp</b><br/>
+        <b>MSV: B20DCCN668</b>
+    </span>
+</div>
+<!--END FOOTER-->
+
+</body>
+<script src="js/manage_customer.js"></script>
+<script src="js/logout.js"></script>
+
+</html>

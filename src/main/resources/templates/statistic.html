@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý khách hàng</title>
+
+    <link type="text/css" href="css/main.css" rel="stylesheet" />
+    <link type="text/css" href="css/statistic.css" rel="stylesheet" />
+    <link type="text/css" href="css/manage_customer.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+    <script type="text/javascript" src="js/jquery_min.js"></script>
+
+</head>
+
+<body>
+<!--HEADER-->
+<div class="header">
+    <h1 class="app_name" >QUẢN LÝ SIÊU THỊ</h1>
+    <!--    <div class="logout" style="display: flex">-->
+    <!--        <div style="margin-top: 15px">Xin chào :</div> &nbsp; &nbsp; <b><div id="user-info"></div></b> &nbsp; &nbsp;<div style="margin-top: 14px">| <a onclick="Logout()" title="Log out">Log out</a></div>-->
+    <!--    </div>-->
+    <!--NAVIGATION BAR-->
+    <ul class="navigation">
+        <a href="manage.html">
+            <li>Trang chủ</li>
+        </a>
+        <a class="navigation-item-selected" href="statistical.html">
+            <li>Thống kê</li>
+        </a>
+        <a href="manage_customer.html">
+            <li>Quản lý khách hàng</li>
+        </a>
+    </ul>
+    <!--NAVIGATION BAR-->
+</div>
+<!--END HEADER-->
+
+<!--CONTENT-->
+<div class="content">
+
+    <p class="content-title">Thống kê khách hàng theo doanh thu</p>
+
+    <div style="display: flex; margin-left: 1%" >
+        <div id="month-block" class="time-block">
+            <label for="list-month">Chọn tháng: </label>
+            <select class="form-inputb" class="list-select" name="list-month" id="list-month">
+                <option value=0>Tất cả tháng</option>
+                <option value="01">Tháng 1</option>
+                <option value="02">Tháng 2</option>
+                <option value="03">Tháng 3</option>
+                <option value="04">Tháng 4</option>
+                <option value="05">Tháng 5</option>
+                <option value="06">Tháng 6</option>
+                <option value="07">Tháng 7</option>
+                <option value="08">Tháng 8</option>
+                <option value="09">Tháng 9</option>
+                <option value="10">Tháng 10</option>
+                <option value="11">Tháng 11</option>
+                <option value="12">Tháng 12</option>
+            </select>
+        </div>
+
+        <div id="year-block" class="time-block" style="margin-left: 2%">
+            <label for="list-year">Chọn năm: </label>
+            <select class="form-inputb" class="list-select" name="list-year" id="list-year">
+                <option value="0">Tất cả năm</option>
+                <option value="2020">2020</option>
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+                <option value="2027">2027</option>
+                <option value="2028">2028</option>
+                <option value="2029">2029</option>
+            </select>
+        </div>
+
+        <button style="margin-left: 2%" onclick="saveMonthAndYearToSession()"> Tìm kiếm</button>
+    </div>
+
+    <p id="table-heading"></p>
+
+    <div style="height: 400px; overflow:auto; position: relative;">
+        <table id="statistic_table">
+            <thead style="position: sticky; top: 0;">
+            <tr>
+                <th class="col col1 center">STT</th>
+                <th class="col col2 center">ID KH</th>
+                <th class="col col3 center">Họ và tên</th>
+                <th class="col col2 center">Ngày sinh</th>
+                <th class="col col2 center">Giới tính</th>
+                <th class="col col4 center">Địa chỉ</th>
+                <th class="col col2 center">Số đơn hàng</th>
+                <th class="col col2 center">Tổng giá trị</th>
+                <th class="col col2 center">Thao tác</th>
+            </tr>
+            </thead>
+            <tbody id="statistic_table_body"></tbody>
+            <tfoot id="statistic_table_foot" style="position: sticky; bottom: 0;">
+                <tr>
+                    <td colspan="6" class="col left">Tổng cộng:</td>
+                    <td id="total_order_footer" class="col co2 right"></td>
+                    <td id="total_revenue_footer" class="col col2 right"></td>
+                    <td class="col center"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+<!--END CONTENT-->
+
+<!--FOOTER-->
+<div class="footer">
+    <p><b>Web quản lý siêu thị</b></p>
+    <span style="line-height:18px;">
+        <b>Người thực hiện: Hà Văn Thiệp</b><br/>
+        <b>MSV: B20DCCN668</b>
+    </span>
+</div>
+<!--END FOOTER-->
+
+</body>
+<script src="js/statistic.js"></script>
+<script type="text/javascript">
+    window.onload = getAllRevenue();
+</script>
+<script src="js/logout.js"></script>
+
+</html></title>
+</head>
+<body>
+
+</body>
+</html>

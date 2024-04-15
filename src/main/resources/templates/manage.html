@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Quản lý sản phẩm</title>
+    <title>Quản lý siêu thị</title>
 
     <link type="text/css" href="css/main.css" rel="stylesheet" />
     <script type="text/javascript" src="js/jquery_min.js"></script>
@@ -13,7 +13,7 @@
 <body>
     <!--HEADER-->
     <div class="header">
-        <h1>QUẢN LÝ SIÊU THỊ</h1>
+        <h1 class="app_name" >QUẢN LÝ SIÊU THỊ</h1>
         <div class="logout" style="display: flex">
             <div style="margin-top: 15px">Xin chào :</div> &nbsp; &nbsp; <b><div id="user-info"></div></b> &nbsp; &nbsp;<div style="margin-top: 14px">| <a onclick="Logout()" title="Log out">Log out</a></div>
         </div>
@@ -22,17 +22,17 @@
             <a class="navigation-item-selected">
                 <li>Trang chủ</li>
             </a>
-            <a href="statistical.html">
+            <a href="statistic.html">
                 <li>Thống kê</li>
             </a>
             <a href="manage_product.html">
                 <li>Quản lý sản phẩm</li>
             </a>
-            <a href="manage_customer.html">
-                <li>Quản lý khách hàng</li>
-            </a>
             <a href="manage_order.html">
                 <li>Quản lý đơn hàng</li>
+            </a>
+            <a href="manage_customer.html">
+                <li>Quản lý khách hàng</li>
             </a>
         </ul>
         <!--NAVIGATION BAR-->
@@ -41,8 +41,10 @@
 
     <!--CONTENT-->
     <div class="content">
-        abc
-
+        <h2 style="margin-left: 1%"> Chủ đề: Hệ thống quản lý bán hàng siêu thị </h2>
+        <h3 style="margin-left: 1%"> Nội dung trình bày 2 module chính: </h3>
+        <h3 style="margin-left: 3%">-  Quản lý Khách hàng: Cho phép nhân viên quản lý xem, thêm, sửa, xoá khách hàng </h3>
+        <h3 style="margin-left: 3%">-  Thống kê Khách hàng theo doanh thu: Cho phép nhân viên quản lý xem thống kê doanh thu khách hàng theo năm/tháng, xem chi tiết doanh thu khách hàng </h3>
     </div>
     <!--END CONTENT-->
 
@@ -58,6 +60,6 @@
 
 </body>
 
-<script src="js/login.js"></script>
+<script src="js/logout.js"></script>
 
 </html>
