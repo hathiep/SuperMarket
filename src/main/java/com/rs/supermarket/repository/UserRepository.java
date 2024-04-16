@@ -1,5 +1,6 @@
 package com.rs.supermarket.repository;
 
+import com.rs.supermarket.model.Product;
 import com.rs.supermarket.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,5 +18,8 @@ public interface UserRepository extends JpaRepository<User,Integer> {
             " u.name LIKE %:keyword%", nativeQuery = true)
     List<User> findByKeyword(@Param("keyword") String keyword);
     boolean existsByEmail(String email);
+
+    @Query(value = "SELECT * FROM user WHERE name LIKE %:keyword%", nativeQuery = true)
+    List<Product> searchUsers(@Param("keyword") String keyword);
 
 }

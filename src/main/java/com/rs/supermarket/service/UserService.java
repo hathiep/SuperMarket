@@ -11,6 +11,9 @@ public interface UserService {
     Optional<User> findById(int id);
     User findUserByEnP(String email, String password);
     User save(User user);
+
+    User searchUsers(String keyword);
+
     void deleteById(int id);
     boolean existsByEmail(String email);
 }

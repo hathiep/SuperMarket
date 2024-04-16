@@ -39,6 +39,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public User searchUsers(String keyword) {
+        return (User) userRepository.searchUsers(keyword);
+    }
+
+    @Override
     public void deleteById(int id) {
         userRepository.deleteById(id);
     }

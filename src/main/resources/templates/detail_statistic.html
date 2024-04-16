@@ -8,7 +8,6 @@
     <link type="text/css" href="css/main.css" rel="stylesheet" />
     <link type="text/css" href="css/statistic.css" rel="stylesheet" />
     <link type="text/css" href="css/manage_customer.css" rel="stylesheet" />
-    <script type="text/javascript" src="js/jquery_min.js"></script>
 
 </head>
 
@@ -46,7 +45,7 @@
 
     <div class="content-title" style="display: flex; margin-top: 0">
         <p>Thông tin khách hàng có ID&nbsp;</p>
-        <p id="customer_id"></p>
+        <p id="user_id"></p>
         <p>&nbsp;theo doanh thu</p>
     </div>
     <form id="frmThemSanPhamMoi" method="post" action="#" style="display: flex; margin-left: 2%">
@@ -87,18 +86,18 @@
     <p id="table-heading"></p>
 
     <div style="height: 300px; overflow:auto; position: relative;">
-        <table id="statistic_table">
+        <table class="sort-table" id="statistic_table">
             <thead style="position: sticky; top: 0;">
             <tr>
-                <th class="col col1 center">STT</th>
-                <th class="col col1 center">ID</th>
-                <th class="col col2 center">Ngày mua</th>
-                <th class="col col2 center">Số sản phẩm</th>
-                <th class="col col3 center">Tổng thanh toán</th>
-                <th class="col col3 center">Vận chuyển</th>
-                <th class="col col3 center">Thanh toán</th>
-                <th class="col col3 center">Trạng thái</th>
-                <th class="col col2 center">Thao tác</th>
+                <th class="table-header col col1 center">STT</th>
+                <th class="table-header col col1 center">ID</th>
+                <th class="table-header col col2 center">Ngày mua</th>
+                <th class="table-header col col2 center">Số sản phẩm</th>
+                <th class="table-header col col3 center">Tổng thanh toán</th>
+                <th class="table-header col col3 center">Vận chuyển</th>
+                <th class="table-header col col3 center">Thanh toán</th>
+                <th class="table-header col col3 center">Trạng thái</th>
+                <th class="table-header col col2 center">Thao tác</th>
             </tr>
             </thead>
             <tbody id="statistic_table_body"></tbody>
@@ -128,6 +127,7 @@
 </body>
 <script src="js/statistic.js"></script>
 <script src="js/manage_customer.js"></script>
+<script src="js/sort_table.js"></script>
 <script type="text/javascript">
     var url = new URL(window.location.href);
     var id = url.searchParams.get("customer_id");

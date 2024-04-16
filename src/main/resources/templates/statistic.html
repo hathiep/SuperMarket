@@ -7,8 +7,7 @@
     <link type="text/css" href="css/main.css" rel="stylesheet" />
     <link type="text/css" href="css/statistic.css" rel="stylesheet" />
     <link type="text/css" href="css/manage_customer.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
-    <script type="text/javascript" src="js/jquery_min.js"></script>
+.    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
 
 </head>
 
@@ -83,17 +82,17 @@
     <p id="table-heading"></p>
 
     <div style="height: 400px; overflow:auto; position: relative;">
-        <table id="statistic_table">
+        <table class="sort-table" id="statistic_table">
             <thead style="position: sticky; top: 0;">
             <tr>
-                <th class="col col1 center">STT</th>
-                <th class="col col2 center">ID KH</th>
-                <th class="col col3 center">Họ và tên</th>
-                <th class="col col2 center">Ngày sinh</th>
-                <th class="col col2 center">Giới tính</th>
-                <th class="col col4 center">Địa chỉ</th>
-                <th class="col col2 center">Số đơn hàng</th>
-                <th class="col col2 center">Tổng giá trị</th>
+                <th class="table-header col col1 center">STT</th>
+                <th class="table-header col col2 center">ID KH</th>
+                <th class="table-header col col3 center">Họ và tên</th>
+                <th class="table-header col col2 center">Ngày sinh</th>
+                <th class="table-header col col2 center">Giới tính</th>
+                <th class="table-header col col4 center">Địa chỉ</th>
+                <th class="table-header col col2 center">Số đơn hàng</th>
+                <th class="table-header col col2 center">Tổng giá trị</th>
                 <th class="col col2 center">Thao tác</th>
             </tr>
             </thead>
@@ -123,6 +122,7 @@
 
 </body>
 <script src="js/statistic.js"></script>
+<script src="js/sort_table.js"></script>
 <script type="text/javascript">
     window.onload = getAllRevenue();
 </script>

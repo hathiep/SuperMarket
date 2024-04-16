@@ -8,7 +8,6 @@
     <link type="text/css" href="css/main.css" rel="stylesheet" />
     <link type="text/css" href="css/statistic.css" rel="stylesheet" />
     <link type="text/css" href="css/manage_customer.css" rel="stylesheet" />
-    <script type="text/javascript" src="js/jquery_min.js"></script>
 
 </head>
 
@@ -120,17 +119,17 @@
     <p id="table-heading">Danh sách sản phẩm trong đơn hàng</p>
 
     <div style="height: 300px; overflow:auto; position: relative;">
-        <table id="item_table">
+        <table class="sort-table" id="item_table">
             <thead style="position: sticky; top: 0;">
             <tr>
-                <th class="col col1 center">STT</th>
-                <th class="col col1 center">ID</th>
-                <th class="col col3 center">Tên sản phẩm</th>
+                <th class="table-header col col1 center">STT</th>
+                <th class="table-header col1 center">ID</th>
+                <th class="table-header col col3 center">Tên sản phẩm</th>
                 <th class="col col1 center">Ảnh</th>
-                <th class="col col2 center">Danh mục</th>
-                <th class="col col1 center">Số lượng</th>
-                <th class="col col2 center">Đơn giá</th>
-                <th class="col col2 center">Thành tiền</th>
+                <th class="table-header col col2 center">Danh mục</th>
+                <th class="table-header col col1 center">Số lượng</th>
+                <th class="table-header col col2 center">Đơn giá</th>
+                <th class="table-header col col2 center">Thành tiền</th>
                 <th class="col col1 center">Thao tác</th>
             </tr>
             </thead>
@@ -162,6 +161,7 @@
 </body>
 <script src="js/order.js"></script>
 <script src="js/manage_customer.js"></script>
+<script src="js/sort_table.js"></script>
 <script type="text/javascript">
     var url = new URL(window.location.href);
     var id = url.searchParams.get("order_id");

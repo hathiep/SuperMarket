@@ -130,3 +130,13 @@ a:hover, a:focus {
 .formInfor{
 	margin-left: 1%;
 }
+
+th.asc::after {
+	content: '\25b2';
+	float: right;
+}
+
+th.desc::after {
+	content: '\25bc';
+	float: right;
+}
