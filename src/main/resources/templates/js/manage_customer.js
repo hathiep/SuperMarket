@@ -192,10 +192,13 @@ function getDetailCustomer(id){
     fetch("http://localhost:8080/api/user?user_id=" + id)
         .then(response => response.json())
         .then(user => {
+            var gender = 'Khác';
+            if(user.gender == 1) gender = 'Nam';
+            else if(user.gender == 0) gender = 'Nữ';
             document.getElementById("user_id").textContent = id;
             document.getElementById("input_name").value = user.name;
             document.getElementById("input_dob").value = user.dob;
-            document.getElementById("input_gender").value = user.gender;
+            document.getElementById("input_gender").value = gender;
             document.getElementById("input_address").value = user.address;
             document.getElementById("input_email").value = user.email;
             document.getElementById("input_phone").value = user.phone;
