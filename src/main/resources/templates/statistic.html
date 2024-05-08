@@ -79,7 +79,7 @@
         <button style="margin-left: 2%" onclick="saveMonthAndYearToSession()"> Tìm kiếm</button>
     </div>
 
-    <p id="table-heading"></p>
+    <p style="margin: 5px 0" id="table-heading"></p>
 
     <div style="height: 400px; overflow:auto; position: relative;">
         <table class="sort-table" id="statistic_table">
@@ -98,6 +98,12 @@
             </thead>
             <tbody id="statistic_table_body"></tbody>
             <tfoot id="statistic_table_foot" style="position: sticky; bottom: 0;">
+                <tr>
+                    <td colspan="6" class="col left">Trung bình:</td>
+                    <td id="average_order_footer" style="padding: 10px 9px;" class="col co2 right"></td>
+                    <td id="average_revenue_footer" class="col col2 right"></td>
+                    <td class="col center"></td>
+                </tr>
                 <tr>
                     <td colspan="6" class="col left">Tổng cộng:</td>
                     <td id="total_order_footer" class="col co2 right"></td>

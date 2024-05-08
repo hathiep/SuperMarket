@@ -29,8 +29,8 @@ async function getAllRevenue() {
         var statisticTableBody  = document.getElementById("statistic_table_body");
         statisticTableBody.innerHTML = "";
         var stt = 1;
+        var sum = 0;
         var total = 0;
-        document.getElementById("total_revenue_footer").textContent = total + " đ";
         for (const entry of data) {
             var row = "<tr>";
             var user_x = await getCustomerById(entry.customer_id);
@@ -44,15 +44,20 @@ async function getAllRevenue() {
             row += "<td class='col col2 center'>" + user_x.dob + "</td>";
             row += "<td class='col col2 center'>" + gender + "</td>";
             row += "<td class='col col4 left'>" + user_x.address + "</td>";
-            row += "<td class='col col2 center'>" + quantity + "</td>";
+            row += "<td class='col col2 right'>" + quantity + "</td>";
             row += "<td class='col col2 right'>" + entry.total_revenue + " đ" + "</td>";
             row += "<td class='col col2 center'><a class='lnkXem' href='detail_statistic.html?customer_id=" + entry.customer_id + "'>Chi tiết</a></td>";
             row += "</tr>";
             statisticTableBody.innerHTML += row;
             stt+= 1;
+            sum= sum + quantity;
             total= total + entry.total_revenue;
-            document.getElementById("total_revenue_footer").textContent = total + " đ";
         }
+
+        document.getElementById("average_order_footer").textContent = (sum/(stt-1)).toFixed(1);
+        document.getElementById("average_revenue_footer").textContent = Math.floor(total/(stt-1)) + " đ";
+        document.getElementById("total_order_footer").textContent = sum;
+        document.getElementById("total_revenue_footer").textContent = total + " đ";
     } catch (error) {
         console.error('Error fetching products:', error);
     }
@@ -107,16 +112,18 @@ async function getAllOrderByRevenue(id){
         const data = await response.json();
         var statisticTableBody  = document.getElementById("statistic_table_body");
         statisticTableBody.innerHTML = "";
-        var stt = 1;
+        var stt = 0;
+        var sum = 0;
         var total = 0;
         for (const order of data) {
+            stt+= 1;
             var row = "<tr>";
             var quantity = await getQuantityItem(order.id);
             var total_cost = await getOrderTotalCost(order.id);
             row += "<td class='col col1 center'>" + stt + "</td>";
             row += "<td class='col col1 center'>" + order.id + "</td>";
             row += "<td class='col col2 left'>" + order.date + "</td>";
-            row += "<td class='col col2 center'>" + quantity + "</td>";
+            row += "<td class='col col2 right'>" + quantity + "</td>";
             row += "<td class='col col3 right'>" + total_cost + " đ" + "</td>";
             row += "<td class='col col3 left'>" + getShipment(order.shipment) + "</td>";
             row += "<td class='col col3 left'>" + getPayment(order.payment) + "</td>";
@@ -124,9 +131,12 @@ async function getAllOrderByRevenue(id){
             row += "<td class='col col2 center'><a class='lnkXem' href='detail_order.html?order_id=" + order.id + "'>Chi tiết</a></td>";
             row += "</tr>";
             statisticTableBody.innerHTML += row;
-            stt+= 1;
+            sum= sum + quantity;
             total= total + total_cost;
         }
+        document.getElementById("average_order_footer").textContent = (sum/stt).toFixed(1);
+        document.getElementById("average_revenue_footer").textContent = Math.floor(total/(stt-1)) + " đ";
+        document.getElementById("total_order_footer").textContent = sum;
         document.getElementById("total_revenue_footer").textContent = total + " đ";
     } catch (error) {
         console.error('Error fetching products:', error);
