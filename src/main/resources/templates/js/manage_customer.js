@@ -37,12 +37,15 @@ function getAllUser() {
             var stt = 1;
             data.forEach(user => {
                 const row = document.createElement('tr');
+                var gender = 'Khác';
+                if(user.gender == 1) gender = 'Nam';
+                else if(user.gender == 0) gender = 'Nữ';
                 row.innerHTML = `
                     <td class="col col1 center">${stt}</td>
                     <td class="col col1 center">${user.id}</td>
                     <td class="col col3 left">${user.name}</td>
                     <td class="col col2 center">${user.dob}</td>
-                    <td class="col col2 center">${user.gender}</td>
+                    <td class="col col2 center">${gender}</td>
                     <td class="col col3 left">${user.address}</td>
                     <td class="col col2 center">
                         <a class="lnkXem" name="btnXem${user.id}" data-id="${user.id}" title="Chi tiết" href="detail_customer.html?id=${user.id}">Chi tiết</a>
@@ -104,12 +107,15 @@ function searchUser() {
             var stt = 1;
             data.forEach(user => {
                 const row = document.createElement('tr');
+                var gender = 'Khác';
+                if(user.gender == 1) gender = 'Nam';
+                else if(user.gender == 0) gender = 'Nữ';
                 row.innerHTML = `
                     <td class="col col1 center">${stt}</td>
                     <td class="col col1 center">${user.id}</td>
                     <td class="col col3 left">${user.name}</td>
                     <td class="col col2 center">${user.dob}</td>
-                    <td class="col col2 center">${user.gender}</td>
+                    <td class="col col2 center">${gender}</td>
                     <td class="col col3 left">${user.address}</td>
                     <td class="col col2 center">
                         <a class="lnkXem" name="btnXem${user.id}" data-id="${user.id}" title="Chi tiết" href="detail_customer.html?id=${user.id}">Chi tiết</a>
