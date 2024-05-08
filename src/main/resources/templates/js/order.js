@@ -8,12 +8,25 @@ function getDetailOrder(id){
             document.getElementById("input_idkh").value = order.customer_id;
             document.getElementById("input_name").value = user.name;
             document.getElementById("input_date").value = order.date;
-            document.getElementById("input_shipment").value = order.shipment;
-            document.getElementById("input_payment").value = order.payment;
-            document.getElementById("input_status").value = order.status;
+            document.getElementById("input_shipment").value = getShipment(order.shipment);
+            document.getElementById("input_payment").value = getPayment(order.payment);
+            document.getElementById("input_status").value = getStatus(order.shipment, order.payment);
         })
         .catch(error => console.error('Error:', error));
 
+}
+function getShipment(i){
+    if(i == 0) return 'Đang đóng gói';
+    if(i == 1) return 'Đang vận chuyển';
+    return 'Đã giao hàng';
+}
+function getPayment(i){
+    if(i == 0) return 'Chưa thanh toán';
+    return 'Đã thanh toán';
+}
+function getStatus(a, b){
+    if(a == 2 && b == 1) return 'Đã hoàn thành';
+    return 'Đang xử lý';
 }
 async function getCustomerById(id) {
     try {

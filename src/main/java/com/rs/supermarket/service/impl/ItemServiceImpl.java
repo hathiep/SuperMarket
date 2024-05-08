@@ -37,6 +37,11 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    public Integer getTotalCostByOrderId(int order_id){
+        return (Integer) itemRepository.getTotalCostByOrderId(order_id);
+    }
+
+    @Override
     public void saveAll(List<Item> items){
         itemRepository.saveAll(items);
     }

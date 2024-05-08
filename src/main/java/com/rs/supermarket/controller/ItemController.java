@@ -38,6 +38,11 @@ public class ItemController {
         return itemService.findByOrderId(order_id);
     }
 
+    @GetMapping("/item/get-order-totalcost")
+    public Integer getTotalCostByOrderId(@RequestParam(name="order_id") int order_id){
+        return (Integer) itemService.getTotalCostByOrderId(order_id);
+    }
+
     @PutMapping("/item/update")
     public void update(@RequestBody Item item){
         itemService.save(item);

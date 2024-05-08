@@ -11,4 +11,7 @@ import java.util.List;
 public interface ItemRepository extends JpaRepository<Item, Integer> {
     @Query(value = "SELECT * FROM item i WHERE i.order_id = :order_id ", nativeQuery = true)
     List<Item> searchItem(@Param("order_id") Integer order_id);
+
+    @Query(value = "SELECT SUM(i.price * i.quantity) FROM item i WHERE i.order_id = :order_id", nativeQuery = true)
+    Integer getTotalCostByOrderId(@Param("order_id") Integer order_id);
 }

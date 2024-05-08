@@ -34,12 +34,15 @@ async function getAllRevenue() {
         for (const entry of data) {
             var row = "<tr>";
             var user_x = await getCustomerById(entry.customer_id);
+            var gender = 'Khác';
+            if(user_x.gender == 1) gender = 'Nam';
+            else if(user_x.gender == 0) gender = 'Nữ';
             var quantity = await getQuantityOrder(entry.customer_id);
             row += "<td class='col col1 center'>" + stt + "</td>";
             row += "<td class='col col2 center'>" + entry.customer_id + "</td>";
             row += "<td class='col col3 left'>" + user_x.name + "</td>";
             row += "<td class='col col2 center'>" + user_x.dob + "</td>";
-            row += "<td class='col col2 center'>" + user_x.gender + "</td>";
+            row += "<td class='col col2 center'>" + gender + "</td>";
             row += "<td class='col col4 left'>" + user_x.address + "</td>";
             row += "<td class='col col2 center'>" + quantity + "</td>";
             row += "<td class='col col2 right'>" + entry.total_revenue + " đ" + "</td>";
@@ -106,28 +109,52 @@ async function getAllOrderByRevenue(id){
         statisticTableBody.innerHTML = "";
         var stt = 1;
         var total = 0;
-        document.getElementById("total_revenue_footer").textContent = total + " đ";
         for (const order of data) {
             var row = "<tr>";
             var quantity = await getQuantityItem(order.id);
+            var total_cost = await getOrderTotalCost(order.id);
             row += "<td class='col col1 center'>" + stt + "</td>";
             row += "<td class='col col1 center'>" + order.id + "</td>";
             row += "<td class='col col2 left'>" + order.date + "</td>";
             row += "<td class='col col2 center'>" + quantity + "</td>";
-            row += "<td class='col col3 right'>" + order.total_cost + " đ" + "</td>";
-            row += "<td class='col col3 left'>" + order.shipment + "</td>";
-            row += "<td class='col col3 left'>" + order.payment + "</td>";
-            row += "<td class='col col3 left'>" + order.status + "</td>";
+            row += "<td class='col col3 right'>" + total_cost + " đ" + "</td>";
+            row += "<td class='col col3 left'>" + getShipment(order.shipment) + "</td>";
+            row += "<td class='col col3 left'>" + getPayment(order.payment) + "</td>";
+            row += "<td class='col col3 left'>" + getStatus(order.shipment, order.payment) + "</td>";
             row += "<td class='col col2 center'><a class='lnkXem' href='detail_order.html?order_id=" + order.id + "'>Chi tiết</a></td>";
             row += "</tr>";
             statisticTableBody.innerHTML += row;
             stt+= 1;
-            total= total + order.total_cost;
-            document.getElementById("total_revenue_footer").textContent = total + " đ";
+            total= total + total_cost;
         }
+        document.getElementById("total_revenue_footer").textContent = total + " đ";
     } catch (error) {
         console.error('Error fetching products:', error);
     }
+}
+async function getOrderTotalCost(orderId) {
+    try {
+        const response = await fetch("http://localhost:8080/api/item/get-order-totalcost?order_id=" + orderId);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error:', error);
+        return null;
+    }
+}
+
+function getShipment(i){
+    if(i == 0) return 'Đang đóng gói';
+    if(i == 1) return 'Đang vận chuyển';
+    return 'Đã giao hàng';
+}
+function getPayment(i){
+    if(i == 0) return 'Chưa thanh toán';
+    return 'Đã thanh toán';
+}
+function getStatus(a, b){
+    if(a == 2 && b == 1) return 'Đã hoàn thành';
+    return 'Đang xử lý';
 }
 async function getQuantityItem(id){
     try {

@@ -10,5 +10,6 @@ public interface ItemService {
     Item save(Item item);
     List<Item> findAll();
     Optional<Item> findById(int id);
+    Integer getTotalCostByOrderId(int order_id);
     void saveAll(List<Item> items);
 }

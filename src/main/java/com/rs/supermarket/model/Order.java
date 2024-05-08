@@ -12,22 +12,17 @@ public class Order {
     private int id;
     private int customer_id;
     private LocalDate date;
-    private int total_cost;
-    private String shipment;
-    private String payment;
-    private String status;
-
+    private int shipment;
+    private int payment;
     public Order() {
     }
 
-    public Order(int id, int customer_id, LocalDate date, int total_cost, String shipment, String payment, String status) {
+    public Order(int id, int customer_id, LocalDate date, int shipment, int payment) {
         this.id = id;
         this.customer_id = customer_id;
         this.date = date;
-        this.total_cost = total_cost;
         this.shipment = shipment;
         this.payment = payment;
-        this.status = status;
     }
 
     public int getId() {
@@ -54,35 +49,20 @@ public class Order {
         this.date = date;
     }
 
-    public int getTotal_cost() {
-        return total_cost;
-    }
-
-    public void setTotal_cost(int total_cost) {
-        this.total_cost = total_cost;
-    }
-
-    public String getShipment() {
+    public int getShipment() {
         return shipment;
     }
 
-    public void setShipment(String shipment) {
+    public void setShipment(int shipment) {
         this.shipment = shipment;
     }
 
-    public String getPayment() {
+    public int getPayment() {
         return payment;
     }
 
-    public void setPayment(String payment) {
+    public void setPayment(int payment) {
         this.payment = payment;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 }
