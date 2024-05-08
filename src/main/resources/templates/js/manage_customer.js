@@ -130,15 +130,17 @@ function searchUser() {
         .catch(error => console.error('Error fetching data:', error));
 }
 function addUser() {
-
     var name = document.getElementById("input_name").value;
     var dob = document.getElementById("input_dob").value;
     var gender = document.getElementById("input_gender").value;
+    var gd = 2;
+    if(gender == 'Nam') gd = 1;
+    else if(gender =='Nữ') gd = 0;
     var address = document.getElementById("input_address").value;
     var email = document.getElementById("input_email").value;
     var phone = document.getElementById("input_phone").value;
 
-    if (name.length == "" || dob.length == "" || gender.length == "" || address.length == "" || email.length == "" || phone.length == "") {
+    if (name.length == "" || dob.length == "" || address.length == "" || email.length == "" || phone.length == "") {
         alert("Vui lòng điền đầy đủ thông tin!");
         return;
     }
@@ -156,7 +158,7 @@ function addUser() {
     var raw = {
         "name": name,
         "dob": dob,
-        "gender": gender,
+        "gender": gd,
         "address": address,
         "email": email,
         "phone": phone
@@ -213,11 +215,14 @@ function editCustomer(){
     var name = document.getElementById("input_name").value;
     var dob = document.getElementById("input_dob").value;
     var gender = document.getElementById("input_gender").value;
+    var gd = 2;
+    if(gender == 'Nam') gd = 1;
+    else if(gender =='Nữ') gd = 0;
     var address = document.getElementById("input_address").value;
     var email = document.getElementById("input_email").value;
     var phone = document.getElementById("input_phone").value;
 
-    if (name.length == "" || dob.length == "" || gender.length == "" || address.length == "" || phone.length == "") {
+    if (name.length == "" || dob.length == "" || address.length == "" || phone.length == "") {
         alert("Vui lòng điền đầy đủ thông tin!");
         return;
     }
@@ -236,7 +241,7 @@ function editCustomer(){
         "id": id,
         "name": name,
         "dob": dob,
-        "gender": gender,
+        "gender": gd,
         "address": address,
         "email": email,
         "phone": phone
