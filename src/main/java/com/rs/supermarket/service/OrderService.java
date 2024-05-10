@@ -10,8 +10,8 @@ public interface OrderService {
 
     Order save(Order order);
     List<Order> findAll();
-    List<Order> findByCustomerIdAndTime(int id, int year, int month);
-    List<Map<Integer, Integer>> getCustomerByRevenue(int year, int month);
+    List<Order> findByCustomerIdAndTime(int id, String startDate, String endDate);
+    List<Map<Integer, Integer>> getCustomerByRevenue(String startDate, String endDate);
     Optional<Order> findById(int id);
     void deleteById(int id);
 }

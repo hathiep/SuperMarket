@@ -41,42 +41,16 @@
 
     <div style="display: flex; margin-left: 1%" >
         <div id="month-block" class="time-block">
-            <label for="list-month">Chọn tháng: </label>
-            <select class="form-inputb" class="list-select" name="list-month" id="list-month">
-                <option value=0>Tất cả tháng</option>
-                <option value="01">Tháng 1</option>
-                <option value="02">Tháng 2</option>
-                <option value="03">Tháng 3</option>
-                <option value="04">Tháng 4</option>
-                <option value="05">Tháng 5</option>
-                <option value="06">Tháng 6</option>
-                <option value="07">Tháng 7</option>
-                <option value="08">Tháng 8</option>
-                <option value="09">Tháng 9</option>
-                <option value="10">Tháng 10</option>
-                <option value="11">Tháng 11</option>
-                <option value="12">Tháng 12</option>
-            </select>
+            <label for="start-date">Từ ngày: </label>
+            <input id="start-date" type="date">
         </div>
 
         <div id="year-block" class="time-block" style="margin-left: 2%">
-            <label for="list-year">Chọn năm: </label>
-            <select class="form-inputb" class="list-select" name="list-year" id="list-year">
-                <option value="0">Tất cả năm</option>
-                <option value="2020">2020</option>
-                <option value="2021">2021</option>
-                <option value="2022">2022</option>
-                <option value="2023">2023</option>
-                <option value="2024">2024</option>
-                <option value="2025">2025</option>
-                <option value="2026">2026</option>
-                <option value="2027">2027</option>
-                <option value="2028">2028</option>
-                <option value="2029">2029</option>
-            </select>
+            <label for="end-date"> đến ngày: </label>
+            <input id="end-date" type="date">
         </div>
 
-        <button style="margin-left: 2%" onclick="saveMonthAndYearToSession()"> Tìm kiếm</button>
+        <button style="margin-left: 2%" onclick="saveDateToSession()"> Tìm kiếm</button>
     </div>
 
     <p style="margin: 5px 0" id="table-heading"></p>

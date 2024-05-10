@@ -15,12 +15,12 @@ public class Product {
     private String des;
     private int price;
     private int quantity;
-    private String status;
+    private int status;
 
     public Product() {
     }
 
-    public Product(int id, String name, String image, String category, String des, int price, int quantity, String status) {
+    public Product(int id, String name, String image, String category, String des, int price, int quantity, int status) {
         this.id = id;
         this.name = name;
         this.image = image;
@@ -87,11 +87,11 @@ public class Product {
         this.quantity = quantity;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 }

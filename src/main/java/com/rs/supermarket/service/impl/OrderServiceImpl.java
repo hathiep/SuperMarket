@@ -29,13 +29,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> findByCustomerIdAndTime(int customer_id, int year, int month){
-        return orderRepository.findOrderByCustomerIdAndTime(customer_id, year, month);
+    public List<Order> findByCustomerIdAndTime(int customer_id, String startDate, String endDate){
+        return orderRepository.findOrderByCustomerIdAndTime(customer_id, startDate, endDate);
     }
 
     @Override
-    public List<Map<Integer, Integer>> getCustomerByRevenue(int year, int month) {
-        return orderRepository.getCustomerByRevenue(year, month);
+    public List<Map<Integer, Integer>> getCustomerByRevenue(String startDate, String endDate) {
+        return orderRepository.getCustomerByRevenue(startDate, endDate);
     }
 
     @Override

@@ -1,24 +1,30 @@
-function saveMonthAndYearToSession() {
-    var selectedMonth = document.getElementById("list-month").value;
-    var selectedYear = document.getElementById("list-year").value;
-    sessionStorage.setItem("selectedMonth", selectedMonth);
-    sessionStorage.setItem("selectedYear", selectedYear);
+function saveDateToSession() {
+    var startDate = document.getElementById("start-date").value;
+    var endDate = document.getElementById("end-date").value;
+    sessionStorage.setItem("startDate", startDate);
+    sessionStorage.setItem("endDate", endDate);
     getAllRevenue();
 }
 async function getAllRevenue() {
     try {
-        var selectedYear = sessionStorage.getItem("selectedYear");
-        var selectedMonth = sessionStorage.getItem("selectedMonth");
-        var time = "";
-        if(selectedMonth == "0" || selectedMonth == "") selectedMonth = "0";
-        else time+= " tháng " + selectedMonth;
-        if(selectedYear == "0"|| selectedYear == "") selectedYear = "0";
-        else time+= " năm " + selectedYear;
-
-        var apiUrl = "http://localhost:8080/api/statistic?";
-        if (selectedYear && selectedMonth) {
-            apiUrl += "year=" + selectedYear + "&month=" + selectedMonth;
+        var startDate = sessionStorage.getItem("startDate");
+        var endDate = sessionStorage.getItem("endDate");
+        console.log("*" + startDate + "*" + endDate + "*");
+        var time = " từ ngày ";
+        if(startDate == "" || startDate == null){
+            startDate = 0;
+            console.log(startDate);
+            time+= "đầu";
         }
+        else time+= startDate;
+        time+= " đến ngày ";
+        if(endDate == ""  || startDate == null){
+            endDate = 0;
+            time+= " hôm nay";
+        }
+        else time+= endDate;
+
+        var apiUrl = "http://localhost:8080/api/statistic?startDate=" + startDate + "&endDate=" + endDate;
         const response = await fetch(apiUrl);
         const data = await response.json();
         var heading = "Danh sách tất cả khách hàng đã mua";
@@ -64,14 +70,11 @@ async function getAllRevenue() {
 }
 async function getQuantityOrder(id){
     try {
-        var selectedYear = sessionStorage.getItem("selectedYear");
-        var selectedMonth = sessionStorage.getItem("selectedMonth");
-        if(selectedMonth == "") selectedMonth = 0;
-        if(selectedYear == "") selectedYear = 0;
-        var apiUrl = "http://localhost:8080/api/statistic_detail?customer_id=" + id;
-        if (selectedYear && selectedMonth) {
-            apiUrl += "&year=" + selectedYear + "&month=" + selectedMonth;
-        }
+        var startDate = sessionStorage.getItem("startDate");
+        var endDate = sessionStorage.getItem("endDate");
+        if(startDate == "") startDate = 0;
+        if(endDate == "") endDate = 0;
+        var apiUrl = "http://localhost:8080/api/statistic_detail?customer_id=" + id + "&startDate=" + startDate + "&endDate=" + endDate;
         const response = await fetch(apiUrl);
         const data = await response.json();
         var quantity = 0;
@@ -95,19 +98,24 @@ async function getCustomerById(id) {
 
 async function getAllOrderByRevenue(id){
     try {
-        var selectedYear = sessionStorage.getItem("selectedYear");
-        var selectedMonth = sessionStorage.getItem("selectedMonth");
-        var table_heading = "Danh sách tất cả đơn hàng đã mua ";
-        if(selectedMonth == "0" || selectedMonth == "") selectedMonth = "0";
-        else table_heading+= " tháng " + selectedMonth;
-        if(selectedYear == "0"|| selectedYear == "") selectedYear = "0";
-        else table_heading+= " năm " + selectedYear;
+        var startDate = sessionStorage.getItem("startDate");
+        var endDate = sessionStorage.getItem("endDate");
+        var time = " từ ngày ";
+        if(startDate == ""){
+            startDate = 0;
+            time+= "đầu";
+        }
+        else time+= startDate;
+        time+= " đến ngày ";
+        if(endDate == ""){
+            endDate = 0;
+            time+= " hôm nay";
+        }
+        else time+= endDate;
+        var table_heading = "Danh sách tất cả đơn hàng đã mua" + time;
         document.getElementById("table-heading").textContent = table_heading;
 
-        var apiUrl = "http://localhost:8080/api/statistic_detail?customer_id=" + id;
-        if (selectedYear && selectedMonth) {
-            apiUrl += "&year=" + selectedYear + "&month=" + selectedMonth;
-        }
+        var apiUrl = "http://localhost:8080/api/statistic_detail?customer_id=" + id + "&startDate=" + startDate + "&endDate=" + endDate;
         const response = await fetch(apiUrl);
         const data = await response.json();
         var statisticTableBody  = document.getElementById("statistic_table_body");
@@ -168,10 +176,6 @@ function getStatus(a, b){
 }
 async function getQuantityItem(id){
     try {
-        var selectedYear = sessionStorage.getItem("selectedYear");
-        var selectedMonth = sessionStorage.getItem("selectedMonth");
-        if(selectedMonth == "") selectedMonth = 0;
-        if(selectedYear == "") selectedYear = 0;
         var apiUrl = "http://localhost:8080/api/items/search?order_id=" + id;
         const response = await fetch(apiUrl);
         const data = await response.json();

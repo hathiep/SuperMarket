@@ -15,13 +15,13 @@ public class OrderController {
     private OrderService orderService;
 
     @GetMapping("/statistic")
-    public List<Map<Integer, Integer>> getCustomerByRevenue(@RequestParam("year") int year, @RequestParam("month") int month){
-        return orderService.getCustomerByRevenue(year, month);
+    public List<Map<Integer, Integer>> getCustomerByRevenue(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate){
+        return orderService.getCustomerByRevenue(startDate, endDate);
     }
 
     @GetMapping("/statistic_detail")
-    public List<Order> findOrderByCustomerIdAndTime(@RequestParam("customer_id") int customer_id, @RequestParam("year") int year, @RequestParam("month") int month){
-        return orderService.findByCustomerIdAndTime(customer_id, year, month);
+    public List<Order> findOrderByCustomerIdAndTime(@RequestParam("customer_id") int customer_id, @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate){
+        return orderService.findByCustomerIdAndTime(customer_id, startDate, endDate);
     }
 
     @GetMapping("/order")
