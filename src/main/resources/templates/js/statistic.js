@@ -18,7 +18,7 @@ async function getAllRevenue() {
         }
         else time+= startDate;
         time+= " đến ngày ";
-        if(endDate == ""  || startDate == null){
+        if(endDate == ""  || endDate == null){
             endDate = 0;
             time+= " hôm nay";
         }
@@ -59,6 +59,7 @@ async function getAllRevenue() {
             sum= sum + quantity;
             total= total + entry.total_revenue;
         }
+        if(stt = 1) stt = 2;
 
         document.getElementById("average_order_footer").textContent = (sum/(stt-1)).toFixed(1);
         document.getElementById("average_revenue_footer").textContent = Math.floor(total/(stt-1)) + " đ";
@@ -72,8 +73,8 @@ async function getQuantityOrder(id){
     try {
         var startDate = sessionStorage.getItem("startDate");
         var endDate = sessionStorage.getItem("endDate");
-        if(startDate == "") startDate = 0;
-        if(endDate == "") endDate = 0;
+        if(startDate == "" || startDate == null) startDate = 0;
+        if(endDate == "" || endDate == null) endDate = 0;
         var apiUrl = "http://localhost:8080/api/statistic_detail?customer_id=" + id + "&startDate=" + startDate + "&endDate=" + endDate;
         const response = await fetch(apiUrl);
         const data = await response.json();
@@ -101,13 +102,14 @@ async function getAllOrderByRevenue(id){
         var startDate = sessionStorage.getItem("startDate");
         var endDate = sessionStorage.getItem("endDate");
         var time = " từ ngày ";
-        if(startDate == ""){
+        if(startDate == "" || startDate == null){
             startDate = 0;
+            console.log(startDate);
             time+= "đầu";
         }
         else time+= startDate;
         time+= " đến ngày ";
-        if(endDate == ""){
+        if(endDate == ""  || endDate == null){
             endDate = 0;
             time+= " hôm nay";
         }
@@ -142,6 +144,7 @@ async function getAllOrderByRevenue(id){
             sum= sum + quantity;
             total= total + total_cost;
         }
+        if(stt = 0) stt = 1;
         document.getElementById("average_order_footer").textContent = (sum/stt).toFixed(1);
         document.getElementById("average_revenue_footer").textContent = Math.floor(total/(stt-1)) + " đ";
         document.getElementById("total_order_footer").textContent = sum;
