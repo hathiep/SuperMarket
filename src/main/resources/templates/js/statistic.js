@@ -9,6 +9,12 @@ async function getAllRevenue() {
     try {
         var startDate = sessionStorage.getItem("startDate");
         var endDate = sessionStorage.getItem("endDate");
+        if(startDate != "" && startDate != null){
+            document.getElementById("start-date").value = startDate;
+        }
+        if(endDate != "" && endDate != null){
+            document.getElementById("end-date").value = endDate;
+        }
         console.log("*" + startDate + "*" + endDate + "*");
         var time = " từ ngày ";
         if(startDate == "" || startDate == null){
@@ -34,7 +40,7 @@ async function getAllRevenue() {
         document.getElementById("table-heading").textContent = heading + time;
         var statisticTableBody  = document.getElementById("statistic_table_body");
         statisticTableBody.innerHTML = "";
-        var stt = 1;
+        var stt = 0;
         var sum = 0;
         var total = 0;
         for (const entry of data) {
@@ -44,6 +50,7 @@ async function getAllRevenue() {
             if(user_x.gender == 1) gender = 'Nam';
             else if(user_x.gender == 0) gender = 'Nữ';
             var quantity = await getQuantityOrder(entry.customer_id);
+            stt+= 1;
             row += "<td class='col col1 center'>" + stt + "</td>";
             row += "<td class='col col2 center'>" + entry.customer_id + "</td>";
             row += "<td class='col col3 left'>" + user_x.name + "</td>";
@@ -55,14 +62,13 @@ async function getAllRevenue() {
             row += "<td class='col col2 center'><a class='lnkXem' href='detail_statistic.html?customer_id=" + entry.customer_id + "'>Chi tiết</a></td>";
             row += "</tr>";
             statisticTableBody.innerHTML += row;
-            stt+= 1;
             sum= sum + quantity;
             total= total + entry.total_revenue;
         }
-        if(stt = 1) stt = 2;
+        if(stt == 0) stt = 1;
 
-        document.getElementById("average_order_footer").textContent = (sum/(stt-1)).toFixed(1);
-        document.getElementById("average_revenue_footer").textContent = Math.floor(total/(stt-1)) + " đ";
+        document.getElementById("average_order_footer").textContent = (sum/stt).toFixed(1);
+        document.getElementById("average_revenue_footer").textContent = Math.floor(total/stt) + " đ";
         document.getElementById("total_order_footer").textContent = sum;
         document.getElementById("total_revenue_footer").textContent = total + " đ";
     } catch (error) {
@@ -144,9 +150,9 @@ async function getAllOrderByRevenue(id){
             sum= sum + quantity;
             total= total + total_cost;
         }
-        if(stt = 0) stt = 1;
+        if(stt == 0) stt = 1;
         document.getElementById("average_order_footer").textContent = (sum/stt).toFixed(1);
-        document.getElementById("average_revenue_footer").textContent = Math.floor(total/(stt-1)) + " đ";
+        document.getElementById("average_revenue_footer").textContent = Math.floor(total/stt) + " đ";
         document.getElementById("total_order_footer").textContent = sum;
         document.getElementById("total_revenue_footer").textContent = total + " đ";
     } catch (error) {
