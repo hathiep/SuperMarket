@@ -15,8 +15,8 @@ public class UserServiceImpl implements UserService{
     private UserRepository  userRepository;
 
     @Override
-    public List<User> findAll(){
-        return userRepository.findAll();
+    public List<User> findAllByRole(Integer role){
+        return userRepository.findAllByRole(role);
     }
 
     @Override
@@ -30,27 +30,28 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User findUserByEnP(String email, String password) {
+    public Optional<User> findUserByEnP(String email, String password) {
         return userRepository.findByEnP(email,password);
     }
     @Override
     public User save(User user) {
         return userRepository.save(user);
     }
-
-    @Override
-    public User searchUsers(String keyword) {
-        return (User) userRepository.searchUsers(keyword);
-    }
-
     @Override
     public void deleteById(int id) {
-        userRepository.deleteById(id);
+        Optional<User> user = userRepository.findById(id);
+        user.get().setRole(2);
+        userRepository.save(user.get());
     }
 
     @Override
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public boolean existsByPhone(String phone) {
+        return userRepository.existsByPhone(phone);
     }
 
 }

@@ -7,17 +7,21 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User,Integer> {
     @Query(value = "SELECT * FROM user u WHERE" +
             " u.email LIKE %:email% AND "+
             " u.password LIKE %:password%", nativeQuery = true)
-    User findByEnP(@Param("email") String email,@Param("password") String password);
+    Optional<User> findByEnP(@Param("email") String email, @Param("password") String password);
 
     @Query(value = "SELECT * FROM user u WHERE" +
             " u.name LIKE %:keyword%", nativeQuery = true)
     List<User> findByKeyword(@Param("keyword") String keyword);
+
+    List<User> findAllByRole(@Param("role") Integer role);
     boolean existsByEmail(String email);
+    boolean existsByPhone(String phone);
 
     @Query(value = "SELECT * FROM user WHERE name LIKE %:keyword%", nativeQuery = true)
     List<Product> searchUsers(@Param("keyword") String keyword);

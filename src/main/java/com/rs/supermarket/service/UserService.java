@@ -7,13 +7,11 @@ import java.util.Optional;
 
 public interface UserService {
     List<User> findByKeyword (String keyword);
-    List<User> findAll();
+    List<User> findAllByRole (Integer role);
     Optional<User> findById(int id);
-    User findUserByEnP(String email, String password);
+    Optional<User> findUserByEnP(String email, String password);
     User save(User user);
-
-    User searchUsers(String keyword);
-
     void deleteById(int id);
     boolean existsByEmail(String email);
+    boolean existsByPhone(String phone);
 }

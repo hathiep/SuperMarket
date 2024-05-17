@@ -17,14 +17,16 @@ function LoginRegister(){
         })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    return response.json().then(errorData => {
+                        throw new Error(errorData.message || 'Network response was not ok');
+                    });
                 }
                 return response.json();
             })
             .then(data => {
                 // Handle successful login
                 if(data.role == 0){
-                    document.getElementById("result").innerHTML = "Bạn không có quyền truy cập. Vui lòng thử lại!";
+                    window.location.href = 'home.html';
                 }
                 else {
                     localStorage.setItem('currentUser', JSON.stringify(data));
@@ -34,8 +36,7 @@ function LoginRegister(){
             })
             .catch(error => {
                 // Handle error
-                document.getElementById("result").innerHTML = "Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin !";
-                console.error('Error:', error);
+                document.getElementById("result").innerHTML = error.message;
             });
     });
 }
@@ -57,7 +58,9 @@ function Register(){
         })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    return response.json().then(errorData => {
+                        throw new Error(errorData.message || 'Network response was not ok');
+                    });
                 }
                 return response.json();
             })
@@ -69,8 +72,7 @@ function Register(){
             })
             .catch(error => {
                 // Handle error
-                document.getElementById("result").innerHTML = "Đăng ký thất bại. Vui lòng kiểm tra lại thông tin!";
-                console.error('Error:', error);
+                document.getElementById("result").innerHTML = error.message;
             });
     });
 }
