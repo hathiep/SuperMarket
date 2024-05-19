@@ -1,10 +1,280 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Siêu thị Hà Đông</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .page-container {
+            width: 100%; /* Chiều rộng luôn là 100% */
+            background: #f0f2f5;
+            justify-content: center;
+        }
+
+        header {
+            background-color: #28a745;
+            color: #fff;
+            padding: 20px 0; /* Giữ padding ở trên và dưới */
+            display: flex;
+            justify-content: left;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+            padding-left: 10%; /* Thụt lề bên trái 10% */
+        }
+
+        #search-form {
+            display: flex;
+            align-items: center;
+            margin: 0 2%;
+            width: 40%; /* Chiều rộng của form là 80% */
+            min-width: 300px;
+            margin-right: 10%; /* Lề bên phải 10% */
+        }
+
+        #search-input {
+            width: 60%; /* Chiều rộng của input là 100% của form */
+            padding: 8px;
+            border-radius: 20px;
+            border: none;
+            outline: none;
+        }
+
+        #search-input:focus {
+            box-shadow: 0 0 5px #28a745;
+        }
+
+        #search-form button {
+            margin: 0 2%;
+            width: 120px;
+            background-color: #ffff00;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            outline: none;
+            font-size: 16px;
+            font-weight: 600;
+            color: blue;
+        }
+
+        nav {
+            display: flex;
+            padding: 0 10%;
+            justify-content: left;
+            background-color: #28a745;
+            /*background-color: #dcedc8; !* Màu nền xanh lá cây dịu *!*/
+        }
+
+        nav a {
+            margin: 0 5px;
+            color: white;
+            padding: 10px 14px;
+            text-decoration: none;
+            text-align: center;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+
+        nav a:hover {
+            background-color: #f0f2f5;
+            color: black;
+        }
+        nav a.selected {
+            background-color: #f0f2f5;
+            color: black;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 20px 5%;
+            justify-content: left;
+            padding: 20px 0 20px 5%;
+            width: 90%; /* Chiều rộng luôn là 100% */
+            min-width: 500px;
+        }
+
+        .product-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 5px;
+            max-width: 235px;
+            min-width: 235px;
+            height: calc(45vh - 40px);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .product-card img {
+            width: auto;
+            height: 66.67%;
+            object-fit: contain;
+        }
+
+        .product-info {
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 33.33%;
+        }
+
+        .product-info h2 {
+            font-size: 18px;
+            margin: 5px 0;
+        }
+
+        .product-info p {
+            margin: 5px 0;
+            color: red;
+            font-weight: bold;
+        }
+
+        .add-to-cart {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .add-to-cart i {
+            font-size: 16px;
+        }
+
+        @media (max-width: 1200px) {
+            .product-card {
+                width: calc(25% - 40px);
+            }
+        }
+
+        @media (max-width: 800px) {
+            .product-card {
+                width: calc(50% - 40px);
+            }
+        }
+
+        @media (max-width: 500px) {
+            .product-card {
+                width: calc(100% - 40px);
+            }
+        }
+    </style>
 </head>
+
 <body>
-<h1>Chào mừng bạn đến với Siêu thị Hà Đông</h1>
+<div class="page-container"> <!-- Thêm container cho trang -->
+    <header>
+        <h1>HaDongMarket</h1>
+        <form id="search-form">
+            <input type="text" id="search-input" placeholder="Tìm kiếm sản phẩm">
+            <button type="submit">Tìm kiếm</button>
+        </form>
+        <div>
+            <i class="fas fa-shopping-cart" style="font-size: 24px; color: #fff; margin-right: 10px;"></i>
+            <i class="fas fa-user-circle" style="font-size: 24px; color: #fff;"></i>
+        </div>
+    </header>
+    <nav>
+        <a href="home.html" class="selected">Trang chủ</a>
+        <a href="#">Category 1</a>
+        <a href="#">Category 2</a>
+        <a href="#">Category 3</a>
+        <a href="#">Category 4</a>
+    </nav>
+    <div class="container" id="product-container">
+        <!-- Các sản phẩm sẽ được render ở đây -->
+    </div>
+</div> <!-- Kết thúc container cho trang -->
+
+<script>
+    async function fetchProducts(url) {
+        try {
+            let response = await fetch(url);
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            let products = await response.json();
+            displayProducts(products);
+        } catch (error) {
+            console.error('There has been a problem with your fetch operation:', error);
+        }
+    }
+
+    function displayProducts(products) {
+        const container = document.getElementById('product-container');
+        container.innerHTML = ''; // Xóa nội dung cũ trước khi render mới
+        products.forEach(product => {
+            const productCard = document.createElement('div');
+            productCard.className = 'product-card';
+            productCard.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}">
+                    <div class="product-info">
+                        <h2>${product.name}</h2>
+                        <p>${formatPrice(product.price)}đ</p>
+                    </div>
+                    <button class="add-to-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                    </button>
+                `;
+            container.appendChild(productCard);
+        });
+    }
+
+    function formatPrice(price) {
+        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
+    // Lấy tất cả sản phẩm khi trang tải
+    fetchProducts('http://localhost:8080/api/products');
+
+    // Ví dụ cho chức năng tìm kiếm
+    document.addEventListener('DOMContentLoaded', () => {
+        const searchForm = document.getElementById('search-form');
+        searchForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const keyword = document.getElementById('search-input').value;
+            fetchProducts(`http://localhost:8080/api/products/search?keyword=${keyword}`);
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const categories = document.querySelectorAll('nav a');
+        categories.forEach(category => {
+            category.addEventListener('click', () => {
+                // Xóa class 'selected' của tất cả các category
+                categories.forEach(c => c.classList.remove('selected'));
+                // Thêm class 'selected' cho category được click
+                category.classList.add('selected');
+            });
+        });
+    });
+</script>
+
+<!-- Thêm font awesome CDN để có thể sử dụng icon -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
 </body>
 </html>
