@@ -3,10 +3,20 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Siêu thị Hà Đông</title>
+    <title id="title"></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link type="text/css" href="../css/header&footer.css" rel="stylesheet" />
     <style>
+        #icon-profile,
+        #icon-profile i {
+            font-size: 40px;
+            color: #ffff4d;
+        }
+
+        #icon-profile span {
+            font-size: 30px;
+        }
+
         .container {
             display: flex;
             flex-wrap: wrap;
@@ -60,12 +70,13 @@
 
         .add-to-cart {
             position: absolute;
-            bottom: 0px;
-            font-size: 14px;
+            bottom: 15px;
             right: 15px;
-            background-color: white;
-            color: black;
+            background-color: #28a745;
+            color: white;
             border: none;
+            padding: 10px;
+            border-radius: 5px;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -116,8 +127,8 @@
         <a href="#">Category 3</a>
         <a href="#">Category 4</a>
     </nav>
-    <div class="container" id="product-container">
-        <!-- Các sản phẩm sẽ được render ở đây -->
+    <div class="container" id="">
+
     </div>
 </div>
 
@@ -126,58 +137,8 @@
 </footer>
 
 <script>
-    async function fetchProducts(url) {
-        try {
-            let response = await fetch(url);
-            if (!response.ok) {
-                throw new Error('Network response was not ok ' + response.statusText);
-            }
-            let products = await response.json();
-            displayProducts(products);
-        } catch (error) {
-            console.error('There has been a problem with your fetch operation:', error);
-        }
-    }
-
-    function displayProducts(products) {
-        const container = document.getElementById('product-container');
-        container.innerHTML = '';
-        products.forEach(product => {
-            const productCard = document.createElement('div');
-            productCard.className = 'product-card';
-            productCard.setAttribute('data-id', product.id); // Thêm thuộc tính data-id
-            let quantityStatus;
-            if (product.quantity === 0) {
-                quantityStatus = "Hết hàng";
-            } else if (product.quantity < 5) {
-                quantityStatus = "Sắp hết hàng";
-            } else {
-                quantityStatus = "Còn hàng";
-            }
-            productCard.innerHTML = `
-                    <img src="${product.image}" alt="${product.name}">
-                    <div class="product-info">
-                        <h2>${product.name}</h2>
-                        <p>${formatPrice(product.price)}đ</p>
-                    </div>
-                    <button class="add-to-cart">
-<!--                        <i class="fas fa-shopping-cart"></i>-->
-                        <p>${quantityStatus}</p>
-                    </button>
-                `;
-            productCard.addEventListener('click', () => {
-                window.location.href = `product-detail.html?id=${product.id}`;
-            });
-            container.appendChild(productCard);
-        });
-    }
-    var url = "http://localhost:8080/products/";
-    const keyword_session = JSON.parse(sessionStorage.getItem('keyword'));
-    if(keyword_session === "" || keyword_session == null) url+= "getAll";
-    else url+= "search?keyword=" + keyword_session;
-    sessionStorage.setItem('keyword', JSON.stringify(""));
-    fetchProducts(url);
-
+    const userData = JSON.parse(localStorage.getItem('currentUser'));
+    document.getElementById("title").textContent = userData.name;
 </script>
 <script src="../js/header&footer.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>

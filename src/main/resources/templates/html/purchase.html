@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Đặt hàng</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link type="text/css" href="../css/header&footer.css" rel="stylesheet" />
+    <style>
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 20px 10%;
+            justify-content: space-between;
+            padding: 20px;
+            width: 80%;
+            min-width: 500px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        .cart-item {
+            background-color: #fff;
+            width: 100%;
+            height: 100px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .cart-item img {
+            width: 100px;
+            height: auto;
+            max-height: 100px;
+            border-radius: 10px;
+            margin-right: 20px;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-details h3 {
+            font-size: 16px;
+            margin: 0;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-details p {
+            margin: 0;
+            font-size: 14px;
+            color: red;
+            font-weight: bold;
+        }
+
+        .check-box {
+            width: 50px;
+            transform: scale(2);
+        }
+
+        .product-info {
+            margin-left: 10px;
+        }
+
+        .product-name {
+            width: 500px;
+        }
+
+        .product-category {
+            width: 150px;
+        }
+
+        .product-price {
+            width: 200px;
+        }
+
+        .product-quantity {
+            width: 200px;
+        }
+
+        .control-btn {
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .purchase {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: row;
+            justify-content: right;
+            align-items: baseline;
+        }
+        .confirm-btn {
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 0 20px 170px;
+            background-color: green;
+            color: white;
+            border: none;
+        }
+        #total-cost {
+            margin-left: 20px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="page-container">
+    <header>
+        <h1>HaDongMarket</h1>
+        <form id="search-form">
+            <input type="text" id="search-input" placeholder="Tìm kiếm sản phẩm">
+            <button type="submit">Tìm kiếm</button>
+        </form>
+        <div class="icons">
+            <a class="icon-header" id="icon-cart" href="cart.html"> <i class="fas fa-shopping-cart"></i> <span class="icon-label" id="label-cart">Giỏ hàng</span> </a>
+            <a class="icon-header" id="icon-profile" href="profile.html"> <i class="fas fa-user-circle"></i> <span class="icon-label" id="label-profile"></span></a>
+        </div>
+    </header>
+    <nav>
+        <a href="home.html" class="selected">Trang chủ</a>
+        <a href="#">Category 1</a>
+        <a href="#">Category 2</a>
+        <a href="#">Category 3</a>
+        <a href="#">Category 4</a>
+    </nav>
+    <div class="container" id="selected-items-container">
+        <!-- Các sản phẩm sẽ được render ở đây -->
+    </div>
+</div>
+
+<footer class="custom-footer">
+    <!-- footer.html sẽ được chèn ở đây -->
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const selectedItems = JSON.parse(sessionStorage.getItem('selectedItems')) || [];
+        const container = document.getElementById('selected-items-container');
+        let total_cost = 0;
+
+        // Tạo một mảng các Promise cho tất cả các yêu cầu fetch
+        const fetchPromises = selectedItems.map(item => {
+            return fetch(`http://localhost:8080/products/getById?id=${item.productId}`)
+                .then(response => response.json())
+                .then(product => {
+                    // Hiển thị thông tin sản phẩm đã chọn
+                    const selectedProductHTML = `
+                    <div class="cart-item" data-product-id="${product.id}">
+                        <img class="product-info product-image" src="${product.image}" alt="${product.name}">
+                        <h3 class="product-info product-name">${product.name}</h3>
+                        <p class="product-info product-category">${product.category}</p>
+                        <p class="product-info product-price">Đơn giá: ${formatPrice(product.price)}đ</p>
+                        <p class="product-info product-quantity">Số lượng: ${item.quantity}</p>
+                    </div>
+                `;
+                    container.insertAdjacentHTML('beforeend', selectedProductHTML);
+                    // Cộng dồn giá trị vào total_cost
+                    total_cost += (product.price * item.quantity);
+                })
+                .catch(error => {
+                    console.error('Error fetching product:', error);
+                    // Xử lý lỗi khi không thể lấy được thông tin sản phẩm từ API
+                    container.innerHTML = '<p>Có lỗi xảy ra khi lấy thông tin sản phẩm</p>';
+                });
+        });
+
+        // Sử dụng Promise.all để đợi tất cả các yêu cầu fetch hoàn thành
+        Promise.all(fetchPromises).then(() => {
+            // Hiển thị tổng chi phí sau khi tất cả sản phẩm đã được tải về và tính toán xong
+            const totalPurchaseHTML = `
+            <div class="purchase" id="total">
+                <h2 id="label">Tổng thanh toán:</h2>
+                <h3 id="total-cost">${formatPrice(total_cost)} đ</h3>
+                <button class="control-btn confirm-btn" id="button-confirm" onClick="saveOrder()">Đặt hàng</button>
+            </div>
+        `;
+            container.insertAdjacentHTML('beforeend', totalPurchaseHTML);
+        });
+    });
+
+</script>
+<script src="../js/header&footer.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+</body>
+</html>

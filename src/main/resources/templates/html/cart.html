@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Giỏ hàng</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link type="text/css" href="../css/header&footer.css" rel="stylesheet" />
+    <style>
+        /* CSS styles */
+        #icon-cart,
+        #icon-cart i {
+            font-size: 40px;
+            color: #ffff4d;
+        }
+
+        #icon-cart span {
+            font-size: 30px;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 20px 10% 0 10%;
+            justify-content: space-between;
+            padding: 0 0 20px 0;
+            width: 80%;
+            min-width: 500px;
+        }
+
+        .cart-item {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            height: 100px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .cart-item img {
+            width: 100px;
+            height: auto;
+            max-height: 100px;
+            border-radius: 10px;
+            margin-right: 20px;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-details h3 {
+            font-size: 16px;
+            margin: 0;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-details p {
+            margin: 0;
+            font-size: 14px;
+            color: red;
+            font-weight: bold;
+        }
+
+        .check-box {
+            width: 50px;
+            transform: scale(2);
+        }
+
+        .product-info {
+            margin-left: 10px;
+        }
+
+        .product-name {
+            width: 500px;
+        }
+
+        .product-category {
+            width: 150px;
+        }
+
+        .product-price {
+            width: 100px;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+        }
+
+        .quantity-btn {
+            background-color: #ffffff;
+            padding: 2px 12px 5px 13px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 22px;
+            text-align: center;
+        }
+
+        .quantity-input {
+            width: 40px;
+            padding: 7px 4px 7px 4px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .remove-btn {
+            background-color: red;
+            color: white;
+            border: none;
+            margin-left: 30px;
+            padding: 6px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        /* New CSS for control buttons */
+        .controls {
+            display: flex;
+            margin: 20px 10% 0 10%;
+            justify-content: left;
+            width: 80%;
+        }
+
+        .control-btn {
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .select-all-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+        }
+
+        .delete-all-btn {
+            margin-left: 20px;
+            background-color: red;
+            color: white;
+            border: none;
+        }
+        .continue {
+            display: flex;
+            margin: 0 10% 0 10%;
+            justify-content: right;
+            align-items: baseline;
+            width: 80%;
+        }
+        .continue-btn {
+            margin: 0 0 20px 170px;
+            background-color: green;
+            color: white;
+            border: none;
+        }
+        #total-cost {
+            margin-left: 20px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="page-container">
+    <header>
+        <h1>HaDongMarket</h1>
+        <form id="search-form">
+            <input type="text" id="search-input" placeholder="Tìm kiếm sản phẩm">
+            <button type="submit">Tìm kiếm</button>
+        </form>
+        <div class="icons">
+            <a class="icon-header" id="icon-cart" href="cart.html"> <i class="fas fa-shopping-cart"></i> <span class="icon-label" id="label-cart">Giỏ hàng</span> </a>
+            <a class="icon-header" id="icon-profile" href="profile.html"> <i class="fas fa-user-circle"></i> <span class="icon-label" id="label-profile"></span></a>
+        </div>
+    </header>
+    <nav>
+        <a href="home.html">Trang chủ</a>
+        <a href="#">Category 1</a>
+        <a href="#">Category 2</a>
+        <a href="#">Category 3</a>
+        <a href="#">Category 4</a>
+    </nav>
+
+    <div class="controls" id="controls">
+        <button class="control-btn select-all-btn" id="button-select" onclick="selectAll()">Chọn tất cả</button>
+        <button class="control-btn delete-all-btn" id="button-delete" onclick="deleteAll()">Xoá tất cả</button>
+    </div>
+
+    <div class="container" id="cart-items-container">
+        <!-- Các mục giỏ hàng sẽ được hiển thị ở đây -->
+    </div>
+
+    <div class="continue" id="total">
+        <h2 id="label">Tổng thanh toán:</h2>
+        <h3 id="total-cost"></h3>
+        <button class="control-btn continue-btn" id="button-continue" onclick="purchase()">Mua hàng</button>
+    </div>
+</div>
+
+<footer class="custom-footer">
+    <!-- footer.html sẽ được chèn ở đây -->
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Lấy danh sách sản phẩm từ sessionStorage
+        let cartItems = JSON.parse(sessionStorage.getItem('cart')) || [];
+
+        // Sắp xếp danh sách sản phẩm theo thứ tự gần nhất đến lâu nhất
+        cartItems.sort((a, b) => {
+            return b.timestamp - a.timestamp; // Sử dụng timestamp để sắp xếp
+        });
+
+        document.getElementById('total').style.display = "none";
+
+        // Kiểm tra nếu giỏ hàng không có sản phẩm
+        if (cartItems.length === 0) {
+            document.getElementById('controls').style.display = "none";
+            document.getElementById('cart-items-container').innerHTML = '<h3 style="margin-left: 20px">Giỏ hàng của bạn đang trống</h3>';
+            return;
+        }
+        document.getElementById('controls').style.display = "block";
+
+        // Hiển thị danh sách sản phẩm trong giỏ hàng
+        const container = document.getElementById('cart-items-container');
+
+        // Lặp qua từng sản phẩm trong giỏ hàng
+        cartItems.forEach(item => {
+            // Gọi API để lấy thông tin sản phẩm dựa trên ID
+            fetch(`http://localhost:8080/products/getById?id=${item.productId}`)
+                .then(response => response.json())
+                .then(product => {
+                    // Hiển thị thông tin sản phẩm trong giỏ hàng
+                    const cartItemHTML = `
+                        <div class="cart-item" data-product-id="${product.id}">
+                            <input type="checkbox" class="check-box" onchange="updateTotalCost()">
+                            <img class="product-info product-image" src="${product.image}" alt="${product.name}">
+                            <h3 class="product-info product-name">${product.name}</h3>
+                            <p class="product-info product-category">${product.category}</p>
+                            <p class="product-info product-price">${formatPrice(product.price)}đ</p>
+                            <div class="product-info quantity-controls">
+                                <button class="quantity-btn decrease-btn" onclick="decreaseQuantity('quantity-input${product.id}')">-</button>
+                                <input type="text" id="quantity-input${product.id}" class="quantity-input" value="${item.quantity}" min="1" max="${product.quantity}" readonly onchange="updateTotalCost()">
+                                <button class="quantity-btn increase-btn" onclick="increaseQuantity('quantity-input${product.id}')">+</button>
+                            </div>
+                            <button class="product-info remove-btn" onclick="removeCartItem('${product.id}')">Xoá</button>
+                        </div>
+                    `;
+                    container.insertAdjacentHTML('beforeend', cartItemHTML);
+                })
+                .catch(error => {
+                    console.error('Error fetching product:', error);
+                    // Xử lý lỗi khi không thể lấy được thông tin sản phẩm từ API
+                    container.innerHTML = '<p>Có lỗi xảy ra khi lấy thông tin sản phẩm</p>';
+                });
+        });
+    });
+
+
+    function decreaseQuantity(quantity_input) {
+        const quantityInput = document.getElementById(quantity_input);
+        let quantity = parseInt(quantityInput.value);
+        if (quantity > 1) {
+            quantity--;
+            quantityInput.value = quantity;
+        }
+        updateTotalCost(); // Gọi hàm updateTotalCost() sau khi giảm số lượng
+    }
+
+    function increaseQuantity(quantity_input) {
+        const quantityInput = document.getElementById(quantity_input);
+        let quantity = parseInt(quantityInput.value);
+        const maxQuantity = parseInt(quantityInput.getAttribute('max'));
+        if (quantity < maxQuantity) {
+            quantity++;
+            quantityInput.value = quantity;
+        }
+        updateTotalCost(); // Gọi hàm updateTotalCost() sau khi tăng số lượng
+    }
+
+    function removeCartItem(productId) {
+        // Confirm deletion with an alert
+        const confirmation = confirm("Bạn có chắc chắn muốn xoá sản phẩm này khỏi giỏ hàng?");
+        if (!confirmation) {
+            return; // If user cancels, do nothing
+        }
+
+        // Xóa sản phẩm khỏi sessionStorage
+        let cartItems = JSON.parse(sessionStorage.getItem('cart'));
+        cartItems = cartItems.filter(item => item.productId !== productId);
+        sessionStorage.setItem('cart', JSON.stringify(cartItems));
+
+        // Xóa sản phẩm khỏi DOM
+        const cartItemElement = document.querySelector(`.cart-item[data-product-id="${productId}"]`);
+        if (cartItemElement) {
+            cartItemElement.remove();
+        }
+
+        // Hiển thị thông báo xoá thành công
+        alert("Đã xoá sản phẩm khỏi giỏ hàng.");
+
+        // Kiểm tra nếu giỏ hàng trống sau khi xoá
+        if (cartItems.length === 0) {
+            document.getElementById('cart-items-container').innerHTML = '<h3>Giỏ hàng của bạn đang trống</h3>';
+        }
+
+        updateTotalCost(); // Gọi hàm updateTotalCost() sau khi xoá sản phẩm
+    }
+
+    function selectAll() {
+        const selectButton = document.getElementById("button-select");
+        const checkboxes = document.querySelectorAll('.check-box');
+
+        // Kiểm tra trạng thái hiện tại của nút
+        if (selectButton.textContent === "Chọn tất cả") {
+            // Nếu nút hiện đang là "Chọn tất cả", thay đổi nút thành "Bỏ chọn tất cả" và chọn tất cả các checkbox
+            selectButton.textContent = "Bỏ chọn tất cả";
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = true;
+            });
+        } else {
+            // Ngược lại, nếu nút hiện đang là "Bỏ chọn tất cả", thay đổi nút thành "Chọn tất cả" và bỏ chọn tất cả các checkbox
+            selectButton.textContent = "Chọn tất cả";
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+        }
+        updateTotalCost(); // Gọi hàm updateTotalCost() sau khi thay đổi trạng thái checkbox
+    }
+
+    function deleteAll() {
+        const confirmation = confirm("Bạn có chắc chắn muốn xoá tất cả sản phẩm khỏi giỏ hàng?");
+        if (!confirmation) {
+            return; // If user cancels, do nothing
+        }
+        let cartItems = null;
+        sessionStorage.setItem('cart', JSON.stringify(cartItems));
+        document.getElementById('cart-items-container').innerHTML = '<p>Giỏ hàng của bạn đã được xoá.</p>';
+        document.getElementById('cart-items-container')
+        updateTotalCost();
+        location.reload();
+    }
+
+    function updateTotalCost() {
+        const checkboxes = document.querySelectorAll('.check-box');
+        let newTotalCost = 0;
+
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                const cartItem = checkbox.closest('.cart-item');
+                const priceElement = cartItem.querySelector('.product-price');
+                const price = parseInt(priceElement.innerText.replace(/[.đ]/g, '')); // Loại bỏ dấu chấm và ký tự "đ" từ giá
+                const quantityInput = cartItem.querySelector('.quantity-input');
+                const quantity = parseInt(quantityInput.value);
+                newTotalCost += price * quantity;
+            }
+        });
+
+        if (newTotalCost === 0) {
+            document.getElementById('total').style.display = "none";
+        }
+        else document.getElementById('total').style.display = "flex";
+
+        // Định dạng giá trị mới theo formatPrice và hiển thị tổng giá trị
+        const formattedTotalCost = formatPrice(newTotalCost);
+        document.getElementById('total-cost').textContent = formattedTotalCost + "đ";
+    }
+
+    function purchase() {
+        const checkboxes = document.querySelectorAll('.check-box');
+        const selectedItems = [];
+
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                const cartItem = checkbox.closest('.cart-item');
+                const productId = cartItem.getAttribute('data-product-id');
+                const quantityInput = cartItem.querySelector('.quantity-input');
+                const quantity = parseInt(quantityInput.value);
+                selectedItems.push({ productId, quantity });
+            }
+        });
+
+        // Lưu danh sách sản phẩm được chọn vào session
+        sessionStorage.setItem('selectedItems', JSON.stringify(selectedItems));
+
+        // Redirect đến trang purchase.html
+        window.location.href = 'purchase.html';
+    }
+
+
+</script>
+<script src="../js/header&footer.js"></script>
+</body>
+

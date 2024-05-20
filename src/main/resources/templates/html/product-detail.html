@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title id="title"></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link type="text/css" href="../css/header&footer.css" rel="stylesheet" />
+    <style>
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 20px 10% 0 10%;
+            justify-content: space-between;
+            padding: 20px 0 20px 0;
+            width: 80%;
+            min-width: 500px;
+        }
+
+        .product-detail {
+            display: flex;
+            width: 100%;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .product-detail img {
+            width: 40%;
+            border-radius: 10px;
+            object-fit: contain;
+            margin-right: 20px;
+        }
+
+        .product-info {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            justify-content: start;
+        }
+
+        .product-info table {
+            width: 100%;
+        }
+
+        .table-row {
+            border-bottom: 5px solid #ccc;
+        }
+
+        .product-info-label {
+            font-weight: bold;
+            padding: 10px 0;
+            width: 20%;
+        }
+
+        .product-info-value {
+            width: 80%;
+        }
+
+        .product-info h2 {
+            font-size: 24px;
+            margin: 5px 0;
+        }
+
+        .product-info p {
+            margin: 5px 0;
+            color: red;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .product-info .quantity {
+            margin: 10px 0;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+        }
+
+        .quantity-btn {
+            background-color: #ffffff;
+            padding: 2px 12px 5px 13px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 22px;
+            text-align: center;
+        }
+
+        .quantity-input {
+            width: 40px;
+            padding: 7px 4px 7px 4px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .add-to-cart {
+            width: 300px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-block;
+            align-items: center;
+            font-size: 16px;
+            margin-top: auto;
+        }
+
+        .add-to-cart i {
+            font-size: 16px;
+            margin-right: 5px;
+        }
+
+        .product-description {
+            width: 100%;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .product-description h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .product-description p {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+
+
+<body>
+<div class="page-container">
+    <header>
+        <h1>HaDongMarket</h1>
+        <form id="search-form">
+            <input type="text" id="search-input" placeholder="Tìm kiếm sản phẩm">
+            <button type="submit">Tìm kiếm</button>
+        </form>
+        <div class="icons">
+            <a class="icon-header" id="icon-cart" href="cart.html"> <i class="fas fa-shopping-cart"></i> <span class="icon-label" id="label-cart">Giỏ hàng</span> </a>
+            <a class="icon-header" id="icon-profile" href="profile.html"> <i class="fas fa-user-circle"></i> <span class="icon-label" id="label-profile"></span></a>
+        </div>
+    </header>
+    <nav>
+        <a href="home.html">Trang chủ</a>
+        <a href="#">Category 1</a>
+        <a href="#">Category 2</a>
+        <a href="#">Category 3</a>
+        <a href="#">Category 4</a>
+    </nav>
+    <div class="container" id="product-detail-container">
+        <!-- Product details will be rendered here -->
+    </div>
+</div>
+
+<footer class="custom-footer">
+    <!-- Footer content will be inserted here using JavaScript -->
+</footer>
+
+<script>
+    // JavaScript for fetching product details and handling quantity controls
+    function getProductIdFromURL() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('id');
+    }
+
+    async function fetchProductDetails(productId) {
+        try {
+            let response = await fetch(`http://localhost:8080/products/getById?id=${productId}`);
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            let product = await response.json();
+            document.getElementById("title").textContent = product.name;
+            displayProductDetails(product);
+        } catch (error) {
+            console.error('There has been a problem with your fetch operation:', error);
+        }
+    }
+
+    function displayProductDetails(product) {
+        const container = document.getElementById('product-detail-container');
+        let quantityStatus;
+        if (product.quantity === 0) {
+            quantityStatus = "Hết hàng";
+        } else if (product.quantity < 5) {
+            quantityStatus = "Sắp hết hàng";
+        } else {
+            quantityStatus = "Còn hàng";
+        }
+        container.innerHTML = `
+        <div class="product-detail">
+            <img src="${product.image}" alt="${product.name}">
+            <div class="product-info">
+                <h2>${product.name}</h2>
+                <table>
+                    <tr class="table-row">
+                        <td class="product-info-label">Giá bán</td>
+                        <td class="product-info-value"><span class="price">${formatPrice(product.price)}đ</span></td>
+                    </tr>
+                    <tr class="table-row">
+                        <td class="product-info-label">Thể loại</td>
+                        <td class="product-info-value"><span class="quantity">${product.category}</span></td>
+                    </tr>
+                    <tr class="table-row">
+                        <td class="product-info-label">Tình trạng</td>
+                        <td class="product-info-value"><span class="quantity">${quantityStatus}</span></td>
+                    </tr>
+                    <tr class="table-row">
+                        <td class="product-info-label">Số lượng</td>
+                        <td class="product-info-value">
+                            <div class="quantity-controls">
+                                <button class="quantity-btn decrease-btn" onclick="decreaseQuantity()">-</button>
+                                <input type="text" id="quantity-input" class="quantity-input" value="1" min="1" max="${product.quantity}" readonly>
+                                <button class="quantity-btn increase-btn" onclick="increaseQuantity()">+</button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <button class="add-to-cart" onclick="addToCart()">
+                    <i class="fas fa-shopping-cart"></i> Thêm vào giỏ hàng
+                </button>
+            </div>
+        </div>
+        <div class="product-description">
+            <h3>Mô tả sản phẩm</h3>
+            <p>${product.des}</p>
+            <img src="${product.image}" alt="${product.name}">
+        </div>
+    `;
+    }
+
+
+
+    function formatPrice(price) {
+        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
+    function decreaseQuantity() {
+        const quantityInput = document.getElementById('quantity-input');
+        let quantity = parseInt(quantityInput.value);
+        if (quantity > 1) {
+            quantity--;
+            quantityInput.value = quantity;
+        }
+    }
+
+    function increaseQuantity() {
+        const quantityInput = document.getElementById('quantity-input');
+        let quantity = parseInt(quantityInput.value);
+        const maxQuantity = parseInt(quantityInput.getAttribute('max'));
+        if (quantity < maxQuantity) {
+            quantity++;
+            quantityInput.value = quantity;
+        }
+    }
+
+    function addToCart() {
+        const productId = getProductIdFromURL();
+        const quantityInput = document.getElementById('quantity-input');
+        const quantity = parseInt(quantityInput.value);
+
+        // Lấy danh sách sản phẩm trong giỏ hàng từ session storage
+        let cartItems = JSON.parse(sessionStorage.getItem('cart')) || [];
+
+        // Tạo một timestamp mới cho mục được thêm vào
+        const timestamp = Date.now();
+
+        // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng chưa
+        const existingItemIndex = cartItems.findIndex(item => item.productId === productId);
+
+        if (existingItemIndex !== -1) {
+            // Nếu sản phẩm đã tồn tại, cộng số lượng mới vào số lượng đã lưu
+            cartItems[existingItemIndex].quantity += quantity;
+        } else {
+            // Nếu sản phẩm chưa tồn tại, thêm sản phẩm mới vào danh sách
+            cartItems.unshift({ productId: productId, quantity: quantity, timestamp: timestamp });
+        }
+
+        // Cập nhật session storage với danh sách sản phẩm mới
+        sessionStorage.setItem('cart', JSON.stringify(cartItems));
+
+        // Thông báo cho người dùng rằng sản phẩm đã được thêm vào giỏ hàng thành công (nếu cần)
+        alert('Đã thêm sản phẩm vào giỏ hàng thành công!');
+
+        location.reload();
+    }
+
+
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const productId = getProductIdFromURL();
+        if (productId) {
+            fetchProductDetails(productId);
+        }
+    });
+</script>
+<script src="../js/header&footer.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+</body>
+
+</html></html>

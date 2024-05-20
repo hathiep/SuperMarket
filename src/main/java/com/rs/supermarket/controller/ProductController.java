@@ -11,7 +11,7 @@ import java.util.List;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping(path = "/api")
+@RequestMapping(path = "products")
 public class ProductController {
 
     @Autowired
@@ -20,7 +20,7 @@ public class ProductController {
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
-    @PostMapping("/product/create")
+    @PostMapping("/create")
     public ResponseEntity<String> create(@RequestBody Product product){
         // Kiểm tra xem sản phẩm đã tồn tại chưa
         if (productService.findByName(product.getName()) != null) {
@@ -32,27 +32,27 @@ public class ProductController {
         return ResponseEntity.ok("Thêm sản phẩm thành công!");
     }
 
-    @GetMapping("/products")
+    @GetMapping("/getAll")
     public List<Product> getAll(){
         return productService.findAll();
     }
 
-    @GetMapping("/product")
+    @GetMapping("/getById")
     public Product getById(@RequestParam(name="id") int id){
         return (Product) productService.findById(id).orElse(null);
     }
 
-    @GetMapping("/products/search")
+    @GetMapping("/search")
     public List<Product> searchProducts(@RequestParam("keyword") String keyword){
         return productService.findByKeyword(keyword);
     }
 
-    @DeleteMapping("/product/delete")
+    @DeleteMapping("/delete")
     public void delete(@RequestParam(name="id") int id){
         productService.deleteById(id);
     }
 
-    @PutMapping("/product/update")
+    @PutMapping("/update")
     public void update(@RequestBody Product product){
         productService.save(product);
     }

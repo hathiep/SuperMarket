@@ -24,12 +24,12 @@ function LoginRegister(){
                 return response.json();
             })
             .then(data => {
+                localStorage.setItem('currentUser', JSON.stringify(data));
                 // Handle successful login
                 if(data.role == 0){
                     window.location.href = 'home.html';
                 }
                 else {
-                    localStorage.setItem('currentUser', JSON.stringify(data));
                     // Redirect to welcome page
                     window.location.href = 'manage.html';
                 }
