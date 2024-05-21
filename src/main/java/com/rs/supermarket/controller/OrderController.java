@@ -1,8 +1,11 @@
 package com.rs.supermarket.controller;
 
 import com.rs.supermarket.model.Order;
+import com.rs.supermarket.model.Product;
 import com.rs.supermarket.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,4 +31,10 @@ public class OrderController {
     public Order findById(@RequestParam (name="id") int id){
         return (Order) orderService.findById(id).orElse(null);
     }
+
+    @PostMapping("/order/create")
+    public Order create(@RequestBody Order order){
+        return orderService.save(order);
+    }
+
 }

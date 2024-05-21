@@ -9,6 +9,7 @@ public interface UserService {
     List<User> findByKeyword (String keyword);
     List<User> findAllByRole (Integer role);
     Optional<User> findById(int id);
+    Optional<User> findByEmail(String email);
     Optional<User> findUserByEnP(String email, String password);
     User save(User user);
     void deleteById(int id);

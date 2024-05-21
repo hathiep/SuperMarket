@@ -6,6 +6,7 @@ import com.rs.supermarket.repository.OrderRepository;
 import com.rs.supermarket.service.OrderService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -20,6 +21,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order save(Order order) {
+//        LocalDate now = LocalDate.now();
+//        order.setDate(now);
         return orderRepository.save(order);
     }
 

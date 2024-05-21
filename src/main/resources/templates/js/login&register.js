@@ -27,11 +27,11 @@ function LoginRegister(){
                 localStorage.setItem('currentUser', JSON.stringify(data));
                 // Handle successful login
                 if(data.role == 0){
-                    window.location.href = 'home.html';
+                    window.location.href = 'client/home.html';
                 }
                 else {
                     // Redirect to welcome page
-                    window.location.href = 'manage.html';
+                    window.location.href = 'server/manage.html';
                 }
             })
             .catch(error => {
@@ -68,7 +68,7 @@ function Register(){
                 // Handle successful registration
                 document.getElementById("result").innerHTML = "Đăng ký thành công. Vui lòng đăng nhập!";
                 // Redirect to login page after successful registration
-                window.location.href = "login.html";
+                window.location.href = "client/login.html";
             })
             .catch(error => {
                 // Handle error

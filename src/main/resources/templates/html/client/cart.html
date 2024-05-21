@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Giỏ hàng</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link type="text/css" href="../css/header&footer.css" rel="stylesheet" />
+    <link type="text/css" href="../../css/header&footer.css" rel="stylesheet" />
     <style>
         /* CSS styles */
         #icon-cart,
@@ -237,14 +237,17 @@
             fetch(`http://localhost:8080/products/getById?id=${item.productId}`)
                 .then(response => response.json())
                 .then(product => {
+                    // Lấy giá của sản phẩm từ product và chuyển đổi sang kiểu integer
+                    const price = parseInt(product.price);
+
                     // Hiển thị thông tin sản phẩm trong giỏ hàng
                     const cartItemHTML = `
-                        <div class="cart-item" data-product-id="${product.id}">
+                        <div class="cart-item" data-product-id="${product.id}" data-product-price="${price}">
                             <input type="checkbox" class="check-box" onchange="updateTotalCost()">
                             <img class="product-info product-image" src="${product.image}" alt="${product.name}">
                             <h3 class="product-info product-name">${product.name}</h3>
                             <p class="product-info product-category">${product.category}</p>
-                            <p class="product-info product-price">${formatPrice(product.price)}đ</p>
+                            <p class="product-info product-price">${formatPrice(price)}đ</p>
                             <div class="product-info quantity-controls">
                                 <button class="quantity-btn decrease-btn" onclick="decreaseQuantity('quantity-input${product.id}')">-</button>
                                 <input type="text" id="quantity-input${product.id}" class="quantity-input" value="${item.quantity}" min="1" max="${product.quantity}" readonly onchange="updateTotalCost()">
@@ -261,6 +264,7 @@
                     container.innerHTML = '<p>Có lỗi xảy ra khi lấy thông tin sản phẩm</p>';
                 });
         });
+
     });
 
 
@@ -381,9 +385,10 @@
             if (checkbox.checked) {
                 const cartItem = checkbox.closest('.cart-item');
                 const productId = cartItem.getAttribute('data-product-id');
+                const price = parseInt(cartItem.getAttribute('data-product-price')); // Lấy giá từ card-item
                 const quantityInput = cartItem.querySelector('.quantity-input');
                 const quantity = parseInt(quantityInput.value);
-                selectedItems.push({ productId, quantity });
+                selectedItems.push({ productId, price, quantity }); // Lưu giá vào selectedItems
             }
         });
 
@@ -395,7 +400,8 @@
     }
 
 
+
 </script>
-<script src="../js/header&footer.js"></script>
+<script src="../../js/header&footer.js"></script>
 </body>
 

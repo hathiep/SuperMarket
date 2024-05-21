@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Đặt hàng</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link type="text/css" href="../css/header&footer.css" rel="stylesheet" />
+    <link type="text/css" href="../../css/header&footer.css" rel="stylesheet" />
     <style>
         .container {
             display: flex;
@@ -187,8 +187,76 @@
         });
     });
 
+    function saveOrder(){
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (!currentUser) {
+            alert("Vui lòng đăng nhập trước khi đặt hàng!");
+            return;
+        }
+
+        const order = {
+            customer_id: currentUser.id,
+            date: new Date().toISOString().split('T')[0], // Format the date as YYYY-MM-DD
+            shipment: 0, // Assuming a static shipment ID, you can modify this as needed
+            payment: 0, // Assuming a static payment ID, you can modify this as needed
+        };
+
+        // Tạo đơn hàng mới
+        fetch('http://localhost:8080/api/order/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(order)
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Order saved successfully:', data);
+
+                // Lưu các mục hàng của đơn hàng
+                const orderItems = JSON.parse(sessionStorage.getItem('selectedItems')) || [];
+                const orderId = data.id; // Lấy ID của đơn hàng vừa tạo
+
+                const itemPromises = orderItems.map(item => {
+                    const orderItem = {
+                        order_id: orderId,
+                        product_id: item.productId,
+                        price: item.price, // Giá của sản phẩm đã lưu trên session
+                        quantity: item.quantity // Số lượng mua của sản phẩm đã lưu trên session
+                    };
+
+                    // Tạo một mục hàng mới
+                    return fetch('http://localhost:8080/api/item/create', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(orderItem)
+                    });
+                });
+
+                // Chờ tất cả các yêu cầu POST hoàn thành
+                Promise.all(itemPromises)
+                    .then(() => {
+                        alert('Đặt hàng thành công. Đơn hàng sẽ được giao đến bạn trong thời gian sớm nhất!');
+                        // Xóa các mục hàng đã đặt khỏi session storage
+                        sessionStorage.removeItem('cart');
+                        // Bạn có thể chuyển hướng người dùng hoặc làm bất kỳ điều gì khác cần thiết ở đây
+                    })
+                    .catch(error => {
+                        console.error('Error saving order items:', error);
+                        alert('There was an error placing your order. Please try again.');
+                    });
+            })
+            .catch(error => {
+                console.error('Error saving order:', error);
+                alert('There was an error placing your order. Please try again.');
+            });
+    }
+
+
 </script>
-<script src="../js/header&footer.js"></script>
+<script src="../../js/header&footer.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
 </body>
 </html>

@@ -25,6 +25,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public Optional<User> findByEmail(String email){
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
     public List<User> findByKeyword(String keyword){
         return userRepository.findByKeyword(keyword);
     }

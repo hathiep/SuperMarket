@@ -1,6 +1,5 @@
 package com.rs.supermarket.controller;
 
-import com.rs.supermarket.model.Product;
 import com.rs.supermarket.model.User;
 import com.rs.supermarket.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,5 +72,10 @@ public class UserController {
     @GetMapping("/user/search")
     public List<User> searchUsers(@RequestParam("keyword") String keyword){
         return userService.findByKeyword(keyword);
+    }
+
+    @GetMapping("/user/findByEmail")
+    public User findByEmail(@RequestParam("email") String email){
+        return (User) userService.findByEmail(email).orElse(null);
     }
 }
