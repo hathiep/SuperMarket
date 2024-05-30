@@ -68,7 +68,7 @@ function Register(){
                 // Handle successful registration
                 document.getElementById("result").innerHTML = "Đăng ký thành công. Vui lòng đăng nhập!";
                 // Redirect to login page after successful registration
-                window.location.href = "client/login.html";
+                window.location.href = "login.html";
             })
             .catch(error => {
                 // Handle error

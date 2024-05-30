@@ -1,16 +1,16 @@
 // Header
 document.addEventListener('DOMContentLoaded', () => {
-    const userData = JSON.parse(localStorage.getItem('currentUser'));
-    const cartItems = JSON.parse(sessionStorage.getItem('cart'));
+    let userData = JSON.parse(localStorage.getItem('currentUser'));
+    let cartItems = JSON.parse(sessionStorage.getItem('cart')) || [];
 
     var label_cart = "Giỏ hàng (" + cartItems.length + ")";
     document.getElementById("label-cart").textContent = label_cart;
 
-    if (userData) {
+    if (userData != null) {
         document.getElementById("label-profile").textContent = `${userData.name}`;
     } else {
         document.getElementById("label-profile").textContent = "Đăng nhập";
-        document.getElementById("icon-profile").href = "login.html"
+        document.getElementById("icon-profile").href = "/Supermarket/src/main/resources/templates/html/login.html";
     }
 
     const searchForm = document.getElementById('search-form');
