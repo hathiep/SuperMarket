@@ -213,8 +213,8 @@ function getDetailCustomer(id){
 }
 
 function editCustomer(){
-
-    var id = document.getElementById("user_id").textContent;
+    const userData = JSON.parse(localStorage.getItem('currentUser'));
+    var id = userData.id;
     var name = document.getElementById("input_name").value;
     var dob = document.getElementById("input_dob").value;
     var gender = document.getElementById("input_gender").value;
@@ -222,7 +222,7 @@ function editCustomer(){
     if(gender == 'Nam') gd = 1;
     else if(gender =='Nữ') gd = 0;
     var address = document.getElementById("input_address").value;
-    var email = document.getElementById("input_email").value;
+    var email = userData.email;
     var phone = document.getElementById("input_phone").value;
 
     if (name.length == "" || dob.length == "" || address.length == "" || phone.length == "") {
@@ -269,7 +269,7 @@ function editCustomer(){
         })
         .then(data => {
             console.log(data);
-            alert('Sửa thông tin khách hàng thành công!');
+            alert('Sửa thông tin thành công!');
             window.location.href = 'manage_customer.html';
         })
         .catch(error => {
