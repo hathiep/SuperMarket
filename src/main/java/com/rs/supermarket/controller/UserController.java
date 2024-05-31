@@ -46,7 +46,7 @@ public class UserController {
         }
         return userService.save(user);
     }
-    @PutMapping("/edit_customer")
+    @PostMapping("/edit_customer")
     public User edit_customer(@RequestBody User user) {
         if (userService.existsByPhone(user.getPhone())) {
             throw new RuntimeException("Số điện thoại đã được sử dụng. Vui lòng nhập số điện thoại khác!");

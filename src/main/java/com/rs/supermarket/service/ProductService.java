@@ -10,6 +10,7 @@ public interface ProductService {
     Product findByName(String name);
     Product save(Product product);
     List<Product> findAll();
+    List<Product> findByCategory(String keyword);
     Optional<Product> findById(int id);
     void deleteById(int id);
 

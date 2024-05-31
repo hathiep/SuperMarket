@@ -42,6 +42,11 @@ public class ProductController {
         return (Product) productService.findById(id).orElse(null);
     }
 
+    @GetMapping("/getByCategory")
+    public List<Product> getById(@RequestParam("category") String category){
+        return productService.findByCategory(category);
+    }
+
     @GetMapping("/search")
     public List<Product> searchProducts(@RequestParam("keyword") String keyword){
         return productService.findByKeyword(keyword);

@@ -17,4 +17,5 @@ public interface ProductRepository extends JpaRepository<Product, Integer>{
     Product findByName(@Param("product_name") String product_name);
 
 
+    List<Product> findByCategory(@Param("category") String category);
 }

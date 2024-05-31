@@ -9,8 +9,8 @@
     <style>
         #icon-profile,
         #icon-profile i {
-            font-size: 40px;
-            color: #ffff4d;
+            font-size: 30px;
+            color: #ffd800;
         }
 
         #icon-profile span {
@@ -104,6 +104,72 @@
                 width: calc(100% - 40px);
             }
         }
+        .menu {
+            width: 20%;
+            padding: 20px 0;
+            border-right: 1px solid #ccc;
+        }
+
+        .menu a {
+            display: block;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .menu a:hover {
+            background-color: #f0f0f0;
+        }
+
+        .info {
+            width: 70%;
+            padding: 20px;
+        }
+
+        /* Khi mở trang web, mặc định hiển thị thông tin cá nhân */
+        .info:not(.personal-info) {
+            display: none;
+        }
+
+        .card {
+            border-radius: 10px;
+            background-color: #fff;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Style cho form thông tin cá nhân */
+        .formInfor {
+            max-width: 300px;
+            margin: auto;
+        }
+
+        .formInfor p {
+            margin-top: 10px;
+        }
+
+        .formInfor input[type="text"],
+        .formInfor input[type="date"],
+        .formInfor select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .formInfor button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -121,21 +187,79 @@
         </div>
     </header>
     <nav>
-        <a href="home.html" class="selected">Trang chủ</a>
-        <a href="#">Category 1</a>
-        <a href="#">Category 2</a>
-        <a href="#">Category 3</a>
-        <a href="#">Category 4</a>
+        <a href="home.html">Trang chủ</a>
+        <a href="#" data="Thực phẩm">Thực phẩm</a>
+        <a href="#" data="Đồ uống">Đồ uống</a>
+        <a href="#" data="Đồ gia dụng">Đồ gia dụng</a>
+        <a href="#" data="Văn phòng phẩm">Văn phòng phẩm</a>
     </nav>
     <div class="container" id="">
+        <div class="menu">
+            <a href="#" class="menu-item" data-target="personal-info">Thông tin cá nhân</a>
+            <a href="#" class="menu-item" data-target="order-list">Danh sách đơn hàng</a>
+            <a href="#" class="menu-item" data-target="logout">Đăng Xuất</a>
+        </div>
+        <div class="info personal-info">
+            <div class="card">
+                <form class="formInfor" method="post">
+                    <p>Họ và tên:</p>
+                    <input type="text" class="txt" id="input_name" required/> <br/>
 
+                    <p>Ngày sinh:</p>
+                    <input type="date" class="txt" id="input_dob" required/> <br/>
+
+                    <p>Giới tính:</p>
+                    <select class="txt" id="input_gender" required>
+                        <option value="Nam" selected>Nam</option>
+                        <option value="Nữ">Nữ</option>
+                        <option value="Khác">Khác</option>
+                    </select>
+
+                    <p>Địa chỉ:</p>
+                    <input type="text" class="txt" id="input_address" required/><br/>
+
+                    <p>Email:</p>
+                    <input type="text" class="txt" id="input_email" disabled/><br/>
+
+                    <p>Số điện thoại:</p>
+                    <input type="text" class="txt" id="input_phone" required/><br/> <br/>
+
+                    <button type="button" class="btn" id="btnEdit" onclick="editCustomer()">Sửa</button>
+                </form>
+            </div>
+        </div>
+        <div class="info order-list">
+            <!-- Đây sẽ là nơi hiển thị danh sách đơn hàng -->
+        </div>
+        <div class="info logout">
+            <!-- Đây sẽ là nơi thực hiện đăng xuất -->
+        </div>
     </div>
 </div>
 
 <footer class="custom-footer">
     <!-- footer.html sẽ được chèn ở đây -->
 </footer>
+<script>
+    const userData = JSON.parse(localStorage.getItem('currentUser'));
+    document.getElementById("title").textContent = userData.name;
 
+    // JavaScript mới để xử lý sự kiện khi click vào các mục menu
+    const menuItems = document.querySelectorAll('.menu-item');
+    menuItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const target = this.getAttribute('data-target');
+            const infoSections = document.querySelectorAll('.info');
+            infoSections.forEach(section => {
+                if (section.classList.contains(target)) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        });
+    });
+</script>
 <script>
     const userData = JSON.parse(localStorage.getItem('currentUser'));
     document.getElementById("title").textContent = userData.name;

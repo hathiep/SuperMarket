@@ -13,6 +13,21 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("icon-profile").href = "/Supermarket/src/main/resources/templates/html/login.html";
     }
 
+    const navLinks = document.querySelectorAll('nav a[data]');
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', function (event) {
+            event.preventDefault(); // Ngăn chặn hành động mặc định của liên kết
+            const category = link.getAttribute('data');
+            sessionStorage.setItem('selectedCategory', category);
+            window.location.href = "home.html"; // Điều hướng trang
+
+            // Cập nhật class 'selected'
+            navLinks.forEach(link => link.classList.remove('selected'));
+            link.classList.add('selected');
+        });
+    });
+
     const searchForm = document.getElementById('search-form');
     searchForm.addEventListener('submit', (event) => {
         event.preventDefault();

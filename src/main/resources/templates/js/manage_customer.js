@@ -45,8 +45,9 @@ function getAllUser() {
                     <td class="col col1 center">${user.id}</td>
                     <td class="col col3 left">${user.name}</td>
                     <td class="col col2 center">${user.dob}</td>
-                    <td class="col col2 center">${gender}</td>
+                    <td class="col col1 center">${gender}</td>
                     <td class="col col3 left">${user.address}</td>
+                    <td class="col col1 center">${user.phone}</td>
                     <td class="col col2 center">
                         <a class="lnkXem" name="btnXem${user.id}" data-id="${user.id}" title="Chi tiết" href="detail_customer.html?id=${user.id}">Chi tiết</a>
                         <a class="lnkSua" name="btnSua${user.id}" data-id="${user.id}" title="Sửa" href="edit_customer.html?id=${user.id}">Sửa</a>
@@ -175,9 +176,11 @@ function addUser() {
     fetch('http://localhost:8080/api/add_customer', requestOptions)
         .then((response) => {
             if (!response.ok) {
-                throw new Error('Có lỗi xảy ra khi thêm khách hàng.');
+                return response.json().then(errorData => {
+                    throw new Error(errorData.message || 'Network response was not ok');
+                });
             }
-            return response.text();
+            return response.json();
         })
         .then(data => {
             console.log(data);
@@ -185,8 +188,8 @@ function addUser() {
             window.location.href = 'manage_customer.html';
         })
         .catch(error => {
-            console.error('There has been a problem with your fetch operation:', error);
-            alert('Đã có lỗi xảy ra. Vui lòng thử lại!');
+            console.error(error.message);
+            alert(error.message);
         });
 }
 function getDetailCustomer(id){
@@ -248,7 +251,7 @@ function editCustomer(){
     };
 
     var requestOptions = {
-        method: "PUT",
+        method: "POST",
         headers: {
             'Content-Type': 'application/json'
         },
@@ -258,9 +261,11 @@ function editCustomer(){
     fetch('http://localhost:8080/api/edit_customer', requestOptions)
         .then((response) => {
             if (!response.ok) {
-                throw new Error('Có lỗi xảy ra khi sửa thông tin khách hàng.');
+                return response.json().then(errorData => {
+                    throw new Error(errorData.message || 'Network response was not ok');
+                });
             }
-            return response.text();
+            return response.json();
         })
         .then(data => {
             console.log(data);
@@ -268,8 +273,8 @@ function editCustomer(){
             window.location.href = 'manage_customer.html';
         })
         .catch(error => {
-            console.error('There has been a problem with your fetch operation:', error);
-            alert('Đã có lỗi xảy ra. Vui lòng thử lại!');
+            console.error(error.message);
+            alert(error.message);
         });
 
 }

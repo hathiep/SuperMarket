@@ -31,7 +31,7 @@ function LoginRegister(){
                 }
                 else {
                     // Redirect to welcome page
-                    window.location.href = 'server/manage.html';
+                    window.location.href = 'admin/manage.html';
                 }
             })
             .catch(error => {
