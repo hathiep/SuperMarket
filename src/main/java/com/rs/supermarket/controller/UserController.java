@@ -18,14 +18,20 @@ public class UserController {
     @PostMapping("/login")
     public User loginUser(@RequestBody User user) {
         Optional<User> u = userService.findUserByEnP(user.getEmail(), user.getPassword());
-        if(u.get() == null){
+
+        if (!u.isPresent()) {
             throw new RuntimeException("Tài khoản hoặc mật khẩu không đúng. Vui lòng thử lại!");
         }
-        if(u.get().getRole() == 2){
+
+        User foundUser = u.get();
+
+        if (foundUser.getRole() == 2) {
             throw new RuntimeException("Tài khoản của bạn đã bị khoá, vui lòng đăng nhập bằng tài khoản khác!");
         }
-        return u.get();
+
+        return foundUser;
     }
+
     @PostMapping("/register")
     public User registerUser(@RequestBody User user) {
         // Kiểm tra xem email đã tồn tại trong hệ thống chưa
@@ -48,8 +54,11 @@ public class UserController {
     }
     @PostMapping("/edit_customer")
     public User edit_customer(@RequestBody User user) {
-        if (userService.existsByPhone(user.getPhone())) {
-            throw new RuntimeException("Số điện thoại đã được sử dụng. Vui lòng nhập số điện thoại khác!");
+        Optional<User> u = userService.findByPhone(user.getPhone());
+        if (u.isPresent()) {
+            if (!u.get().getEmail().equals(user.getEmail())) {
+                throw new RuntimeException("Số điện thoại đã được sử dụng. Vui lòng nhập số điện thoại khác!");
+            }
         }
         return userService.save(user);
     }

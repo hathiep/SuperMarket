@@ -24,13 +24,14 @@ function LoginRegister(){
                 return response.json();
             })
             .then(data => {
-                localStorage.setItem('currentUser', JSON.stringify(data));
                 // Handle successful login
                 if(data.role == 0){
+                    localStorage.setItem('currentUser', JSON.stringify(data));
                     window.location.href = 'client/home.html';
                 }
                 else {
                     // Redirect to welcome page
+                    localStorage.setItem('admin', JSON.stringify(data));
                     window.location.href = 'admin/manage.html';
                 }
             })
@@ -67,6 +68,7 @@ function Register(){
             .then(data => {
                 // Handle successful registration
                 document.getElementById("result").innerHTML = "Đăng ký thành công. Vui lòng đăng nhập!";
+                localStorage.setItem('cart' + data.id, JSON.stringify(null));
                 // Redirect to login page after successful registration
                 window.location.href = "login.html";
             })

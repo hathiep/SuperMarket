@@ -1,14 +1,14 @@
 function saveDateToSession() {
     var startDate = document.getElementById("start-date").value;
     var endDate = document.getElementById("end-date").value;
-    sessionStorage.setItem("startDate", startDate);
-    sessionStorage.setItem("endDate", endDate);
+    localStorage.setItem("startDate", startDate);
+    localStorage.setItem("endDate", endDate);
     getAllRevenue();
 }
 async function getAllRevenue() {
     try {
-        var startDate = sessionStorage.getItem("startDate");
-        var endDate = sessionStorage.getItem("endDate");
+        var startDate = localStorage.getItem("startDate");
+        var endDate = localStorage.getItem("endDate");
         if(startDate != "" && startDate != null){
             document.getElementById("start-date").value = startDate;
         }
@@ -77,8 +77,8 @@ async function getAllRevenue() {
 }
 async function getQuantityOrder(id){
     try {
-        var startDate = sessionStorage.getItem("startDate");
-        var endDate = sessionStorage.getItem("endDate");
+        var startDate = localStorage.getItem("startDate");
+        var endDate = localStorage.getItem("endDate");
         if(startDate == "" || startDate == null) startDate = 0;
         if(endDate == "" || endDate == null) endDate = 0;
         var apiUrl = "http://localhost:8080/api/statistic_detail?customer_id=" + id + "&startDate=" + startDate + "&endDate=" + endDate;
@@ -105,8 +105,8 @@ async function getCustomerById(id) {
 
 async function getAllOrderByRevenue(id){
     try {
-        var startDate = sessionStorage.getItem("startDate");
-        var endDate = sessionStorage.getItem("endDate");
+        var startDate = localStorage.getItem("startDate");
+        var endDate = localStorage.getItem("endDate");
         var time = " từ ngày ";
         if(startDate == "" || startDate == null){
             startDate = 0;

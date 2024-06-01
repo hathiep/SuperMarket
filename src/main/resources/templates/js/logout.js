@@ -1,10 +1,10 @@
-var userData = JSON.parse(localStorage.getItem('currentUser'));
+var userData = JSON.parse(localStorage.getItem('admin'));
 
 // Display user info
 if (userData) {
     document.getElementById("user-info").innerHTML = `<p>${userData.name}</p>`;
 } else {
-    document.getElementById("user-info").innerHTML = "<p>Không có thông tin người dùng.</p>";
+    document.getElementById("user-info").innerHTML = "<p>Admin</p>";
 }
 function Logout(){
     const confirmation = confirm("Bạn có muốn đăng xuất không?");

@@ -51,16 +51,18 @@ async function getAllItemByOrderId(id){
         var quantity = 0;
         document.getElementById("total_cost_footer").textContent = total + " đ";
         for (const item of data) {
+            const product = await fetchProductInfo(item.product_id);
+            console.log(product);
             var row = "<tr>";
             row += "<td class='col col1 center'>" + stt + "</td>";
             row += "<td class='col col1 center'>" + item.id + "</td>";
-            row += "<td class='col col3 left'>" + "</td>";
-            row += "<td class='col col1 center'>" + "</td>";
-            row += "<td class='col col2 center'>" + "</td>";
-            row += "<td class='col col1 right'>" + item.quantity + "</td>";
+            row += "<td class='col col7 left'>" + product.name + "</td>";
+            row += `<td class='col col2 center'><img style="height: 50px; width: auto" src="${product.image}" alt="${product.name}"></td>`;
+            row += "<td class='col col3 center'>" + product.category +  "</td>";
+            row += "<td class='col col2 right'>" + item.quantity + "</td>";
             row += "<td class='col col2 right'>" + item.price + " đ" + "</td>";
-            row += "<td class='col col2 right'>" + item.quantity * item.price + " đ" + "</td>";
-            row += "<td class='col col1 center'><a class='lnkXem' href='detail_product.html?product_id=" + item.product_id + "'>Chi tiết</a></td>";
+            row += "<td class='col col5 right'>" + item.quantity * item.price + " đ" + "</td>";
+            row += "<td class='col col8 center'><a class='lnkXem' target=\"_blank\" href='/Supermarket/src/main/resources/templates/html/client/product-detail.html?id=" + item.product_id + "'>Chi tiết</a></td>";
             row += "</tr>";
             itemTableBody.innerHTML += row;
             stt+= 1;
@@ -70,5 +72,17 @@ async function getAllItemByOrderId(id){
         }
     } catch (error) {
         console.error('Error fetching products:', error);
+    }
+}
+async function fetchProductInfo(productId) {
+    try {
+        let response = await fetch(`http://localhost:8080/products/getById?id=${productId}`);
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+        let product = await response.json();
+        return product;
+    } catch (error) {
+        console.error('There has been a problem with your fetch operation:', error);
     }
 }

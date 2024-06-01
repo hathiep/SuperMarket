@@ -70,10 +70,16 @@ tfoot{
     width: 20%;
 }
 .col5{
-    width: 20%;
+    width: 12%;
 }
 .col6{
     width: 10%;
+}
+.col7{
+    width: 25%;
+}
+.col8{
+    width: auto;
 }
 .left{
     text-align: left;

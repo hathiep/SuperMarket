@@ -209,9 +209,10 @@
 </footer>
 
 <script>
+    let userData = JSON.parse(localStorage.getItem('currentUser'));
     document.addEventListener('DOMContentLoaded', () => {
-        // Lấy danh sách sản phẩm từ sessionStorage
-        let cartItems = JSON.parse(sessionStorage.getItem('cart')) || [];
+        // Lấy danh sách sản phẩm từ localStorage
+        let cartItems = JSON.parse(localStorage.getItem('cart'  + userData.id)) || [];
 
         // Sắp xếp danh sách sản phẩm theo thứ tự gần nhất đến lâu nhất
         cartItems.sort((a, b) => {
@@ -296,10 +297,10 @@
             return; // If user cancels, do nothing
         }
 
-        // Xóa sản phẩm khỏi sessionStorage
-        let cartItems = JSON.parse(sessionStorage.getItem('cart'));
+        // Xóa sản phẩm khỏi localStorage
+        let cartItems = JSON.parse(localStorage.getItem('cart' + userData.id));
         cartItems = cartItems.filter(item => item.productId !== productId);
-        sessionStorage.setItem('cart', JSON.stringify(cartItems));
+        localStorage.setItem('cart' + userData.id, JSON.stringify(cartItems));
 
         // Xóa sản phẩm khỏi DOM
         const cartItemElement = document.querySelector(`.cart-item[data-product-id="${productId}"]`);
@@ -345,7 +346,7 @@
             return; // If user cancels, do nothing
         }
         let cartItems = null;
-        sessionStorage.setItem('cart', JSON.stringify(cartItems));
+        localStorage.setItem('cart' + userData.id, JSON.stringify(cartItems));
         document.getElementById('cart-items-container').innerHTML = '<p>Giỏ hàng của bạn đã được xoá.</p>';
         document.getElementById('cart-items-container')
         updateTotalCost();
@@ -393,7 +394,7 @@
         });
 
         // Lưu danh sách sản phẩm được chọn vào session
-        sessionStorage.setItem('selectedItems', JSON.stringify(selectedItems));
+        localStorage.setItem('selectedItems', JSON.stringify(selectedItems));
 
         // Redirect đến trang purchase.html
         window.location.href = 'purchase.html';

@@ -29,6 +29,7 @@
 
         .product-detail img {
             width: 40%;
+            max-height: 500px;
             border-radius: 10px;
             object-fit: contain;
             margin-right: 20px;
@@ -194,53 +195,58 @@
 
     function displayProductDetails(product) {
         const container = document.getElementById('product-detail-container');
-        let quantityStatus;
+        let quantityStatus, color = '#28a745', btn_text = ' Thêm vào giỏ hàng', outOfStock = false;
+
         if (product.quantity === 0) {
             quantityStatus = "Hết hàng";
+            btn_text = " Hết hàng";
+            color = '#d9534f';
+            outOfStock = true;
         } else if (product.quantity < 5) {
             quantityStatus = "Sắp hết hàng";
         } else {
             quantityStatus = "Còn hàng";
         }
+
         container.innerHTML = `
-        <div class="product-detail">
-            <img src="${product.image}" alt="${product.name}">
-            <div class="product-info">
-                <h2>${product.name}</h2>
-                <table>
-                    <tr class="table-row">
-                        <td class="product-info-label">Giá bán</td>
-                        <td class="product-info-value"><span class="price">${formatPrice(product.price)}đ</span></td>
-                    </tr>
-                    <tr class="table-row">
-                        <td class="product-info-label">Thể loại</td>
-                        <td class="product-info-value"><span class="quantity">${product.category}</span></td>
-                    </tr>
-                    <tr class="table-row">
-                        <td class="product-info-label">Tình trạng</td>
-                        <td class="product-info-value"><span class="quantity">${quantityStatus}</span></td>
-                    </tr>
-                    <tr class="table-row">
-                        <td class="product-info-label">Số lượng</td>
-                        <td class="product-info-value">
-                            <div class="quantity-controls">
-                                <button class="quantity-btn decrease-btn" onclick="decreaseQuantity()">-</button>
-                                <input type="text" id="quantity-input" class="quantity-input" value="1" min="1" max="${product.quantity}" readonly>
-                                <button class="quantity-btn increase-btn" onclick="increaseQuantity()">+</button>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-                <button class="add-to-cart" onclick="addToCart()">
-                    <i class="fas fa-shopping-cart"></i> Thêm vào giỏ hàng
-                </button>
-            </div>
+    <div class="product-detail">
+        <img src="${product.image}" alt="${product.name}">
+        <div class="product-info">
+            <h2>${product.name}</h2>
+            <table>
+                <tr class="table-row">
+                    <td class="product-info-label">Giá bán</td>
+                    <td class="product-info-value"><span class="price">${formatPrice(product.price)}đ</span></td>
+                </tr>
+                <tr class="table-row">
+                    <td class="product-info-label">Thể loại</td>
+                    <td class="product-info-value"><span class="quantity">${product.category}</span></td>
+                </tr>
+                <tr class="table-row">
+                    <td class="product-info-label">Tình trạng</td>
+                    <td class="product-info-value"><span class="quantity">${quantityStatus}</span></td>
+                </tr>
+                <tr class="table-row">
+                    <td class="product-info-label">Số lượng</td>
+                    <td class="product-info-value">
+                        <div class="quantity-controls">
+                            <button class="quantity-btn decrease-btn" onclick="decreaseQuantity()">-</button>
+                            <input type="text" id="quantity-input" class="quantity-input" value="1" min="1" max="${product.quantity}" readonly>
+                            <button class="quantity-btn increase-btn" onclick="increaseQuantity()">+</button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <button class="add-to-cart" onclick="addToCart(${outOfStock})" style="background: ${color};">
+                <i class="fas fa-shopping-cart"></i> ${btn_text}
+            </button>
         </div>
-        <div class="product-description">
-            <h3>Mô tả sản phẩm</h3>
-            <p>${product.des}</p>
-            <img src="${product.image}" alt="${product.name}">
-        </div>
+    </div>
+    <div class="product-description">
+        <h3>Mô tả sản phẩm</h3>
+        <p>${product.des}</p>
+        <img src="${product.image}" alt="${product.name}">
+    </div>
     `;
     }
 
@@ -267,15 +273,23 @@
             quantity++;
             quantityInput.value = quantity;
         }
+        else {
+            alert('Đã đạt giới hạn số lượng sản phẩm có sẵn');
+        }
     }
 
-    function addToCart() {
+    function addToCart(outOfStock) {
+        if (outOfStock) {
+            alert("Sản phẩm tạm hết hàng. Vui lòng chọn sản phẩm khác.");
+            return;
+        }
         const productId = getProductIdFromURL();
         const quantityInput = document.getElementById('quantity-input');
         const quantity = parseInt(quantityInput.value);
 
+        let userData = JSON.parse(localStorage.getItem('currentUser'));
         // Lấy danh sách sản phẩm trong giỏ hàng từ session storage
-        let cartItems = JSON.parse(sessionStorage.getItem('cart')) || [];
+        let cartItems = JSON.parse(localStorage.getItem('cart' + userData.id)) || [];
 
         // Tạo một timestamp mới cho mục được thêm vào
         const timestamp = Date.now();
@@ -292,7 +306,7 @@
         }
 
         // Cập nhật session storage với danh sách sản phẩm mới
-        sessionStorage.setItem('cart', JSON.stringify(cartItems));
+        localStorage.setItem('cart' + userData.id, JSON.stringify(cartItems));
 
         // Thông báo cho người dùng rằng sản phẩm đã được thêm vào giỏ hàng thành công (nếu cần)
         alert('Đã thêm sản phẩm vào giỏ hàng thành công!');

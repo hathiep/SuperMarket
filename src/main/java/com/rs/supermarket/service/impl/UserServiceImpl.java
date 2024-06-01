@@ -30,13 +30,19 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public Optional<User> findByPhone(String phone){
+        return userRepository.findByPhone(phone);
+    }
+
+
+    @Override
     public List<User> findByKeyword(String keyword){
         return userRepository.findByKeyword(keyword);
     }
 
     @Override
     public Optional<User> findUserByEnP(String email, String password) {
-        return userRepository.findByEnP(email,password);
+        return Optional.ofNullable(userRepository.findByEnP(email, password).orElse(null));
     }
     @Override
     public User save(User user) {

@@ -11,12 +11,11 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User,Integer> {
     @Query(value = "SELECT * FROM user u WHERE" +
-            " u.email LIKE %:email% AND "+
-            " u.password LIKE %:password%", nativeQuery = true)
+            " u.email =:email AND "+
+            " u.password = :password", nativeQuery = true)
     Optional<User> findByEnP(@Param("email") String email, @Param("password") String password);
 
-    @Query(value = "SELECT * FROM user u WHERE" +
-            " u.name LIKE %:keyword%", nativeQuery = true)
+    @Query(value = "SELECT * FROM user u WHERE u.name LIKE %:keyword% AND u.role = 0", nativeQuery = true)
     List<User> findByKeyword(@Param("keyword") String keyword);
 
     List<User> findAllByRole(@Param("role") Integer role);
@@ -24,8 +23,9 @@ public interface UserRepository extends JpaRepository<User,Integer> {
     boolean existsByPhone(String phone);
 
     @Query(value = "SELECT * FROM user WHERE name LIKE %:keyword%", nativeQuery = true)
-    List<Product> searchUsers(@Param("keyword") String keyword);
+    List<Product> searchUsersByRole(@Param("keyword") String keyword);
 
     Optional<User> findByEmail(@Param("email") String email);
+    Optional<User> findByPhone(@Param("phone") String phone);
 
 }

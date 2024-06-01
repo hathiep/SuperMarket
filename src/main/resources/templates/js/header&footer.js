@@ -1,7 +1,7 @@
 // Header
 document.addEventListener('DOMContentLoaded', () => {
     let userData = JSON.parse(localStorage.getItem('currentUser'));
-    let cartItems = JSON.parse(sessionStorage.getItem('cart')) || [];
+    let cartItems = JSON.parse(localStorage.getItem('cart' + userData.id)) || [];
 
     var label_cart = "Giỏ hàng (" + cartItems.length + ")";
     document.getElementById("label-cart").textContent = label_cart;
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         link.addEventListener('click', function (event) {
             event.preventDefault(); // Ngăn chặn hành động mặc định của liên kết
             const category = link.getAttribute('data');
-            sessionStorage.setItem('selectedCategory', category);
+            localStorage.setItem('selectedCategory', category);
             window.location.href = "home.html"; // Điều hướng trang
 
             // Cập nhật class 'selected'
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     searchForm.addEventListener('submit', (event) => {
         event.preventDefault();
         const keyword = document.getElementById('search-input').value;
-        sessionStorage.setItem('keyword', JSON.stringify(keyword));
+        localStorage.setItem('keyword', JSON.stringify(keyword));
         window.location.href = "home.html";
     });
 

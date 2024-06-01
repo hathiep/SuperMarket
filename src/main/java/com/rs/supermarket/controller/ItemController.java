@@ -1,11 +1,14 @@
 package com.rs.supermarket.controller;
 
 import com.rs.supermarket.model.Item;
+import com.rs.supermarket.model.Product;
 import com.rs.supermarket.service.ItemService;
+import com.rs.supermarket.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin("*")
 @RestController
@@ -14,12 +17,18 @@ public class ItemController {
 
     @Autowired
     private ItemService itemService;
+    private ProductService productService;
 
-    public ItemController(ItemService itemService) {
+    public ItemController(ItemService itemService, ProductService productService) {
         this.itemService = itemService;
+        this.productService = productService;
     }
+
     @PostMapping("/item/create")
     public Item create(@RequestBody Item item){
+        Optional<Product> product = productService.findById(item.getProduct_id());
+        product.get().setQuantity(product.get().getQuantity()-item.getQuantity());
+        productService.save(product.get());
         return itemService.save(item);
     }
 

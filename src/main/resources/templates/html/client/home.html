@@ -10,9 +10,9 @@
         .container {
             display: flex;
             flex-wrap: wrap;
-            margin: 20px 5% 0 5%;
+            margin: 0px 5% 0 5%;
             justify-content: left;
-            padding: 20px 0 20px 5%;
+            padding: 5px 0 20px 5%;
             width: 90%;
             min-width: 500px;
         }
@@ -93,6 +93,26 @@
                 width: calc(100% - 40px);
             }
         }
+
+        .sorting-container {
+            margin: 20px 10% 0 10.2%;
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            height: 60px;
+        }
+
+        .sorting-container label {
+            margin: 10px;
+        }
+
+        #sort-price {
+            padding: 5px;
+        }
+
     </style>
 </head>
 
@@ -116,6 +136,15 @@
         <a href="#" data="Đồ gia dụng">Đồ gia dụng</a>
         <a href="#" data="Văn phòng phẩm">Văn phòng phẩm</a>
     </nav>
+
+    <div class="sorting-container">
+        <label for="sort-price">Sắp xếp theo giá:</label>
+        <select id="sort-price">
+            <option value="none">Không sắp xếp</option>
+            <option value="low-to-high">Thấp đến cao</option>
+            <option value="high-to-low">Cao đến thấp</option>
+        </select>
+    </div>
 
     <div class="container" id="product-container">
         <!-- Các sản phẩm sẽ được render ở đây -->
@@ -149,7 +178,7 @@
             products.forEach(product => {
                 const productCard = document.createElement('div');
                 productCard.className = 'product-card';
-                productCard.setAttribute('data-id', product.id); // Thêm thuộc tính data-id
+                productCard.setAttribute('data-id', product.id);
                 let quantityStatus;
                 if (product.quantity === 0) {
                     quantityStatus = "Hết hàng";
@@ -159,15 +188,15 @@
                     quantityStatus = "Còn hàng";
                 }
                 productCard.innerHTML = `
-                        <img src="${product.image}" alt="${product.name}">
-                        <div class="product-info">
-                            <h2>${product.name}</h2>
-                            <p>${formatPrice(product.price)}đ</p>
-                        </div>
-                        <button class="add-to-cart">
-                            <p>${quantityStatus}</p>
-                        </button>
-                    `;
+                    <img src="${product.image}" alt="${product.name}">
+                    <div class="product-info">
+                        <h2>${product.name}</h2>
+                        <p>${formatPrice(product.price)}đ</p>
+                    </div>
+                    <button class="add-to-cart">
+                        <p>${quantityStatus}</p>
+                    </button>
+                `;
                 productCard.addEventListener('click', () => {
                     window.location.href = `product-detail.html?id=${product.id}`;
                 });
@@ -176,18 +205,18 @@
         }
 
         // Fetch all products or by category on page load
-        const selectedCategory = sessionStorage.getItem('selectedCategory');
+        const selectedCategory = localStorage.getItem('selectedCategory');
         let url;
         if (selectedCategory) {
             url = `http://localhost:8080/products/getByCategory?category=${selectedCategory}`;
-            sessionStorage.removeItem('selectedCategory'); // Clear the stored category after use
+            localStorage.removeItem('selectedCategory'); // Clear the stored category after use
         } else {
             url = "http://localhost:8080/products/getAll";
         }
-        const keyword_session = JSON.parse(sessionStorage.getItem('keyword'));
+        const keyword_session = JSON.parse(localStorage.getItem('keyword'));
         if (keyword_session) {
             url = `http://localhost:8080/products/search?keyword=${keyword_session}`;
-            sessionStorage.setItem('keyword', JSON.stringify(""));
+            localStorage.setItem('keyword', JSON.stringify(""));
         }
         fetchProducts(url);
 
@@ -205,11 +234,31 @@
             document.querySelector('nav a[href="home.html"]').classList.remove('selected');
         }
 
+        // Add event listener for sorting
+        document.getElementById('sort-price').addEventListener('change', function() {
+            const selectedOption = this.value;
+            let sortedProducts;
+            fetch(url)
+                .then(response => response.json())
+                .then(products => {
+                    if (selectedOption === 'low-to-high') {
+                        sortedProducts = products.sort((a, b) => a.price - b.price);
+                    } else if (selectedOption === 'high-to-low') {
+                        sortedProducts = products.sort((a, b) => b.price - a.price);
+                    } else {
+                        sortedProducts = products; // No sorting
+                    }
+                    displayProducts(sortedProducts);
+                })
+                .catch(error => console.error('Error fetching products for sorting:', error));
+        });
+
     });
 
     function formatPrice(price) {
         return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
+
 </script>
 
 <script src="../../js/header&footer.js"></script>
