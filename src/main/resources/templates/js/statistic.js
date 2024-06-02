@@ -30,7 +30,7 @@ async function getAllRevenue() {
         }
         else time+= endDate;
 
-        var apiUrl = "http://localhost:8080/api/statistic?startDate=" + startDate + "&endDate=" + endDate;
+        var apiUrl = "http://localhost:8080/statistic/getAllByTime?startDate=" + startDate + "&endDate=" + endDate;
         const response = await fetch(apiUrl);
         const data = await response.json();
         var heading = "Danh sách tất cả khách hàng đã mua";
@@ -44,27 +44,30 @@ async function getAllRevenue() {
         var sum = 0;
         var total = 0;
         for (const entry of data) {
+            console.log(entry);
             var row = "<tr>";
-            var user_x = await getCustomerById(entry.customer_id);
+            var user_x = entry; // Directly use entry since it includes Customer data
             var gender = 'Khác';
             if(user_x.gender == 1) gender = 'Nam';
             else if(user_x.gender == 0) gender = 'Nữ';
-            var quantity = await getQuantityOrder(entry.customer_id);
-            stt+= 1;
+            var quantity = await getQuantityOrder(user_x.id); // Use getCustomerId()
+            stt += 1;
             row += "<td class='col col1 center'>" + stt + "</td>";
-            row += "<td class='col col2 center'>" + entry.customer_id + "</td>";
+            row += "<td class='col col2 center'>" + user_x.id + "</td>"; // Use getCustomerId()
             row += "<td class='col col3 left'>" + user_x.name + "</td>";
             row += "<td class='col col2 center'>" + user_x.dob + "</td>";
             row += "<td class='col col2 center'>" + gender + "</td>";
             row += "<td class='col col4 left'>" + user_x.address + "</td>";
             row += "<td class='col col2 right'>" + quantity + "</td>";
-            row += "<td class='col col2 right'>" + entry.total_revenue + " đ" + "</td>";
-            row += "<td class='col col2 center'><a class='lnkXem' href='detail_statistic.html?customer_id=" + entry.customer_id + "'>Chi tiết</a></td>";
+            row += "<td class='col col2 right'>" + entry.totalRevenue + " đ" + "</td>";
+            row += "<td class='col col2 center'><a class='lnkXem' href='detail_statistic.html?customer_id=" + user_x.id + "'>Chi tiết</a></td>"; // Use getCustomerId()
             row += "</tr>";
             statisticTableBody.innerHTML += row;
-            sum= sum + quantity;
-            total= total + entry.total_revenue;
+            sum = sum + quantity;
+            total = total + entry.totalRevenue;
         }
+
+
         if(stt == 0) stt = 1;
 
         document.getElementById("average_order_footer").textContent = (sum/stt).toFixed(1);
